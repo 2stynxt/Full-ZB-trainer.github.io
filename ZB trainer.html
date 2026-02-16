@@ -1,0 +1,2913 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full ZB trainer</title>
+    <link rel="icon" href="images/logo.png" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0a1a 0%, #1a0f2e 50%, #0d0818 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #e8e3f5;
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(15, 10, 26, 0.8);
+            backdrop-filter: blur(20px);
+            padding: 16px;
+            text-align: center;
+            color: #e8e3f5;
+            border-bottom: 1px solid rgba(232, 227, 245, 0.08);
+            position: relative;
+        }
+
+        .credits-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 10, 26, 0.9);
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            color: #e8e3f5;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9em;
+        }
+
+        .credits-btn:hover {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: #c4b5fd;
+            transform: translateY(-1px);
+        }
+
+        .header h1 {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 2.8em;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #e8e3f5 0%, #b8b3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-container {
+            display: flex;
+            flex: 1;
+            padding: 16px;
+            gap: 16px;
+            width: 100%;
+            max-width: none;
+            margin: 0;
+        }
+
+        .selection-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .zone-section {
+            background: rgba(15, 10, 26, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            backdrop-filter: blur(10px);
+        }
+
+        .zone-title {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #e8e3f5;
+            margin-bottom: 16px;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(232, 227, 245, 0.08);
+            letter-spacing: -0.01em;
+        }
+
+        .zbll-zone .zone-title {
+            border-bottom-color: rgba(239, 68, 68, 0.6);
+            color: #fca5a5;
+        }
+
+        .zbls-zone .zone-title {
+            border-bottom-color: rgba(59, 130, 246, 0.6);
+            color: #93c5fd;
+        }
+
+        /* Nouveau design pour les cartes horizontales */
+        .families-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 8px;
+            padding: 5px 0;
+            margin-bottom: 10px;
+            width: 100%;
+            align-items: start;
+        }
+
+        .family-card {
+            min-width: 180px;
+            max-width: 180px;
+            background: rgba(15, 10, 26, 0.6);
+            border: 1px solid rgba(232, 227, 245, 0.08);
+            border-radius: 8px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+        }
+
+        .family-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(167, 139, 250, 0.08);
+        }
+
+        .family-card.selected {
+            background: rgba(34, 197, 94, 0.12);
+            border-color: rgba(34, 197, 94, 0.4);
+            transform: scale(1.02);
+        }
+
+        .family-card.partially-selected {
+            background: rgba(251, 146, 60, 0.1);
+            border-color: rgba(251, 146, 60, 0.3);
+        }
+
+        .family-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+        }
+
+        .family-header:hover {
+            background: rgba(15, 10, 26, 0.95);
+            border-color: rgba(232, 227, 245, 0.12);
+            transform: scale(1.01);
+        }
+
+        .family-name {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #e8e3f5;
+        }
+
+        .family-count {
+            background: rgba(167, 139, 250, 0.15);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #c4b5fd;
+        }
+
+        .family-oll-pattern {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 5px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .family-oll-pattern img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        .oll-svg {
+            width: 100px;
+            height: 100px;
+        }
+
+        /* Sous-cas (Niveau 2) */
+        .subcases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 170px);
+            gap: 8px;
+            margin-top: 10px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 10px;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        .family-card.expanded .subcases-grid {
+            max-height: 1000px;
+            overflow: visible;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Animation pour les sous-cas individuels */
+        .subcase-card {
+            width: 170px;
+            background: rgba(15, 10, 26, 0.7);
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: scale(0.9) translateY(10px);
+            animation: subcaseFadeIn 0.3s ease forwards;
+        }
+
+        .family-card.expanded .subcase-card:nth-child(1) { animation-delay: 0.05s; }
+        .family-card.expanded .subcase-card:nth-child(2) { animation-delay: 0.08s; }
+        .family-card.expanded .subcase-card:nth-child(3) { animation-delay: 0.11s; }
+        .family-card.expanded .subcase-card:nth-child(4) { animation-delay: 0.14s; }
+        .family-card.expanded .subcase-card:nth-child(5) { animation-delay: 0.17s; }
+        .family-card.expanded .subcase-card:nth-child(6) { animation-delay: 0.20s; }
+        .family-card.expanded .subcase-card:nth-child(7) { animation-delay: 0.23s; }
+        .family-card.expanded .subcase-card:nth-child(8) { animation-delay: 0.26s; }
+        .family-card.expanded .subcase-card:nth-child(9) { animation-delay: 0.29s; }
+
+        @keyframes subcaseFadeIn {
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Animation pour le header de la famille */
+        .family-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 8px;
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            position: relative;
+        }
+
+        /* Flèche uniquement pour ZBLL (qui ont des sous-cas) */
+        .zbll-zone .family-name::after {
+            content: '▼';
+            margin-left: 8px;
+            font-size: 0.7em;
+            color: #a78bfa;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .zbll-zone .family-card.expanded .family-name::after {
+            transform: rotate(180deg);
+            display: inline-block;
+        }
+
+        .subcase-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(167, 139, 250, 0.4);
+            background: rgba(167, 139, 250, 0.1);
+        }
+
+        .subcase-card.selected {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.5);
+            transform: scale(1.02);
+        }
+
+        .subcase-card.partially-selected {
+            background: rgba(251, 146, 60, 0.12);
+            border-color: rgba(251, 146, 60, 0.4);
+        }
+
+        .subcase-name {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #e8e3f5;
+            margin-bottom: 6px;
+            text-align: center;
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            background: rgba(167, 139, 250, 0.08);
+            border: 1px solid rgba(167, 139, 250, 0.15);
+        }
+
+        .subcase-name:hover {
+            background: rgba(167, 139, 250, 0.12);
+            border-color: rgba(167, 139, 250, 0.25);
+            transform: scale(1.02);
+        }
+
+        .subcase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 8px;
+            padding: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .subcase-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+        }
+
+        .subcase-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .subcase-count {
+            font-size: 0.8em;
+            color: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .family-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .click-hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        /* Fenêtre Modale */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: rgba(15, 10, 26, 0.95);
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            border-radius: 10px;
+            padding: 24px;
+            max-width: 800px;
+            max-height: 80vh;
+            width: 90%;
+            overflow-y: auto;
+            backdrop-filter: blur(20px);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid rgba(232, 227, 245, 0.08);
+        }
+
+        .modal-title {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #e8e3f5;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e8e3f5;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        .modal-close:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #fca5a5;
+            transform: scale(1.05);
+        }
+
+        .modal-content {
+            margin-bottom: 20px;
+        }
+
+        .individual-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .individual-case-card {
+            background: rgba(15, 10, 26, 0.7);
+            border: 1px solid rgba(232, 227, 245, 0.08);
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .individual-case-card:hover {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        .individual-case-card.selected {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.4);
+        }
+
+        .individual-case-image {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .individual-case-image img,
+        .individual-case-image svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .individual-case-name {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1em;
+            font-weight: 600;
+            color: #e8e3f5;
+            margin-bottom: 0;
+        }
+
+        .individual-case-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: #ffd700;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            padding-top: 16px;
+            border-top: 2px solid rgba(232, 227, 245, 0.08);
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            border-radius: 8px;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: rgba(15, 10, 26, 0.9);
+            color: #e8e3f5;
+        }
+
+        .modal-btn.all {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+            color: #86efac;
+        }
+
+        .modal-btn.none {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+        }
+
+        .modal-btn.done {
+            background: rgba(167, 139, 250, 0.15);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: #c4b5fd;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        /* Panneau de contrôle */
+        .control-panel {
+            width: 400px;
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            backdrop-filter: blur(20px);
+        }
+
+        .section-title {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #e8e3f5;
+            margin-bottom: 16px;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(232, 227, 245, 0.08);
+            letter-spacing: -0.01em;
+        }
+
+        .selection-summary {
+            background: rgba(15, 10, 26, 0.9);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+        }
+
+        .selection-count {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1em;
+        }
+
+        .count-item {
+            background: rgba(15, 10, 26, 0.7);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+        }
+
+        .count-item.zbll {
+            color: #fca5a5;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .count-item.zbls {
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        .selected-algorithms {
+            background: rgba(15, 10, 26, 0.8);
+            color: #e8e3f5;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-bottom: 16px;
+            max-height: 150px;
+            overflow-y: auto;
+            word-break: break-all;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+        }
+
+        .btn {
+            width: 100%;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 4px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-training {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(22, 163, 74, 0.8));
+            color: #e8e3f5;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .btn-training:hover {
+            transform: translateY(-1px);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 1), rgba(22, 163, 74, 0.9));
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+
+        .btn:disabled {
+            background: rgba(107, 114, 128, 0.3);
+            color: rgba(156, 163, 175, 0.5);
+            cursor: not-allowed;
+            transform: none;
+            border-color: rgba(107, 114, 128, 0.2);
+        }
+
+        /* Vue d'entraînement */
+        .training-view {
+            display: none;
+            flex: 1;
+            padding: 0 16px 16px 16px;
+            gap: 16px;
+            width: 100%;
+            max-width: none;
+            margin: -30px 0 0 0;
+            position: relative;
+        }
+
+        .training-view.active {
+            display: flex;
+        }
+
+        .btn-back-top {
+            position: absolute;
+            top: 2px;
+            left: 20px;
+            background: rgba(15, 10, 26, 0.9);
+            color: #e8e3f5;
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-back-top:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            transform: translateY(-1px);
+        }
+
+        .training-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 15px;
+            padding-top: 0;
+            margin-top: 0;
+        }
+
+        .training-layout {
+            display: flex;
+            gap: 20px;
+            align-items: stretch;
+            justify-content: center;
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .timer-main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            flex: 1;
+            margin-top: 0;
+        }
+
+        .scramble-display {
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 8px;
+            padding: 12px 24px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 100%;
+            backdrop-filter: blur(20px);
+        }
+
+        .scramble-text {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #a78bfa;
+            letter-spacing: 0.05em;
+            margin: 2px 0;
+        }
+
+        .timer-container {
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 10px;
+            padding: 60px 50px 40px 50px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            backdrop-filter: blur(20px);
+        }
+
+        .timer-display {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-size: 10em;
+            font-weight: 800;
+            color: #e8e3f5;
+            background: linear-gradient(135deg, rgba(15, 10, 26, 0.9), rgba(26, 15, 46, 0.9));
+            padding: 40px 100px;
+            border-radius: 8px;
+            min-width: 700px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+            letter-spacing: -0.06em;
+            line-height: 1;
+        }
+
+        .timer-display.ready {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(220, 38, 38, 0.1));
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, 0.2);
+            transform: scale(1.02);
+        }
+
+        .timer-display.ready_to_start {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(22, 163, 74, 0.1));
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.2);
+            transform: scale(1.02);
+        }
+
+        .timer-display.running {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+            color: #86efac;
+            border-color: rgba(34, 197, 94, 0.15);
+        }
+
+        .case-display {
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 10px;
+            padding: 24px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            text-align: center;
+            width: 400px;
+            min-height: 380px;
+            backdrop-filter: blur(20px);
+        }
+
+        .case-image {
+            width: 280px;
+            height: 280px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .case-image img,
+        .case-image svg {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .case-name {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #e8e3f5;
+            margin-top: 16px;
+        }
+
+        .training-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-back {
+            background: rgba(15, 10, 26, 0.9);
+            color: #e8e3f5;
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-back:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            transform: translateY(-1px);
+        }
+
+        .btn-next {
+            background: rgba(15, 10, 26, 0.9);
+            color: #e8e3f5;
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-next:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #93c5fd;
+            transform: translateY(-1px);
+        }
+
+        .training-stats {
+            width: 400px;
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            height: auto;
+            margin: 0;
+            backdrop-filter: blur(20px);
+        }
+
+        .stats-title {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #e8e3f5;
+            margin-bottom: 16px;
+            text-align: center;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(232, 227, 245, 0.08);
+            letter-spacing: -0.01em;
+        }
+
+        .history-container {
+            margin-bottom: 20px;
+        }
+
+        .time-history {
+            background: rgba(15, 10, 26, 0.9);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+            height: 280px;
+            overflow-y: scroll;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(167, 139, 250, 0.3) rgba(15, 10, 26, 0.8);
+        }
+
+        /* Custom scrollbar for WebKit browsers */
+        .time-history::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .time-history::-webkit-scrollbar-track {
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 3px;
+            margin: 2px;
+        }
+
+        .time-history::-webkit-scrollbar-thumb {
+            background: rgba(167, 139, 250, 0.3);
+            border-radius: 3px;
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            margin: 2px;
+        }
+
+        .time-history::-webkit-scrollbar-thumb:hover {
+            background: rgba(167, 139, 250, 0.5);
+        }
+
+        .btn-clear-history {
+            background: rgba(15, 10, 26, 0.9);
+            color: #e8e3f5;
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-clear-history:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            transform: translateY(-1px);
+        }
+
+        .time-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 6px;
+            background: rgba(15, 10, 26, 0.6);
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-weight: 500;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+        }
+
+        .time-item .time {
+            font-weight: 600;
+            color: #86efac;
+        }
+
+        .time-item .case {
+            color: #a78bfa;
+            font-size: 0.9em;
+        }
+
+        .ao5-separator {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.4), transparent);
+            margin: 12px 0;
+            border-radius: 1px;
+            position: relative;
+        }
+
+        .ao5-separator::before {
+            content: "Ao5 ↑";
+            position: absolute;
+            left: 10px;
+            top: -8px;
+            background: rgba(167, 139, 250, 0.15);
+            color: #c4b5fd;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            font-weight: 600;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            border: 1px solid rgba(167, 139, 250, 0.2);
+        }
+
+        .statistics {
+            background: rgba(15, 10, 26, 0.9);
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+            margin-top: 20px;
+            margin-bottom: 0;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(15, 10, 26, 0.7);
+            border-radius: 6px;
+            border: 1px solid rgba(232, 227, 245, 0.04);
+        }
+
+        .stat-label {
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 600;
+            color: #e8e3f5;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            font-weight: 600;
+            color: #86efac;
+            font-size: 1.1em;
+        }
+
+        .timer-hint {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9em;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .families-container {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .families-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .control-panel {
+                width: 100%;
+            }
+            
+            .families-container {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+            
+            .family-card {
+                min-width: 180px;
+                padding: 12px;
+            }
+            
+            .family-oll-pattern {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .oll-svg {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .families-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .family-card {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center; justify-content: center; gap: 15px;">
+            <img src="images/logo.png" alt="Full ZB Trainer Logo" style="width: 40px; height: 40px; border-radius: 8px;">
+            <h1 style="margin: 0;">Full ZB trainer</h1>
+        </div>
+        <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px;">
+            <button id="btn-back-top" class="btn-back-top" style="display: none;">← Retour</button>
+        </div>
+        <div style="position: absolute; top: 20px; right: 100px; display: flex; align-items: center;">
+            <button id="shortcuts-btn" class="credits-btn" style="font-size: 0.9em; padding: 8px 16px;">Raccourcis</button>
+        </div>
+        <div style="position: absolute; top: 20px; right: 20px; display: flex; align-items: center;">
+            <button id="credits-btn" class="credits-btn">Crédits</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Partie Sélection -->
+        <div class="selection-panel">
+            <!-- Zone ZBLL -->
+            <div class="zone-section zbll-zone">
+                <div class="zone-title">
+                    <div>ZBLL</div>
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.8; margin-top: 5px;">Sélection des sets</div>
+                </div>
+                <div id="zbll-families" class="families-container">
+                    <!-- Les cartes de familles ZBLL seront insérées ici -->
+                </div>
+            </div>
+
+            <!-- Zone ZBLS -->
+            <div class="zone-section zbls-zone">
+                <div class="zone-title">
+                    <div>ZBLS</div>
+                    <div style="font-size: 0.7em; font-weight: normal; opacity: 0.8; margin-top: 5px;">Sélection des sets</div>
+                </div>
+                <div id="zbls-families-container" class="families-container">
+                    <!-- Les cartes de familles ZBLS seront insérées ici -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Panneau de contrôle -->
+        <div class="control-panel">
+            <div class="section-title">S'entraîner</div>
+            
+            <div class="selection-summary">
+                <div class="selection-count">
+                    <div class="count-item zbll">ZBLL: <span id="zbll-count">0</span></div>
+                    <img src="images/timer.png" alt="Timer" style="width: 40px; height: 40px; margin: 0 14px; vertical-align: middle;">
+                    <div class="count-item zbls">ZBLS: <span id="zbls-count">0</span></div>
+                </div>
+                <button id="training-btn" class="btn btn-training" disabled>
+                    <img src="images/trainer.png" alt="Commencer l'entraînement" style="width: 20px; height: 20px; margin-right: 8px; vertical-align: middle;">
+                    Commencer l'entraînement
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue d'entraînement -->
+    <div id="training-view" class="training-view">
+        <div class="training-main">
+            <div class="training-layout">
+                <!-- Cas actuel à gauche -->
+                <div class="case-display">
+                    <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">Derniers cas résolus</div>
+                    
+                    <!-- Dernier cas ZBLL -->
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 1em; color: #ff6b6b; margin-bottom: 8px; text-align: center;">ZBLL</div>
+                        <div class="case-image">
+                            <img id="zbll-case-image" src="svgs/T-case.svg" alt="Dernier ZBLL" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" style="display:none; width: 100%; height: 100%;">
+                                <rect width="100" height="100" fill="#333"/>
+                                <text x="50" y="50" text-anchor="middle" fill="#ff6b6b" font-size="12" font-weight="bold">--</text>
+                            </svg>
+                        </div>
+                        <div id="zbll-case-name" class="case-name" style="color: #ff6b6b;">--</div>
+                    </div>
+                    
+                    <!-- Dernier cas ZBLS -->
+                    <div>
+                        <div style="font-size: 1em; color: #4dabf7; margin-bottom: 8px; text-align: center;">ZBLS</div>
+                        <div class="case-image">
+                            <img id="zbls-case-image" src="svgs/ZBLS/F2L-1-1.png" alt="Dernier ZBLS" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" style="display:none; width: 100%; height: 100%;">
+                                <rect width="100" height="100" fill="#333"/>
+                                <text x="50" y="50" text-anchor="middle" fill="#4dabf7" font-size="12" font-weight="bold">--</text>
+                            </svg>
+                        </div>
+                        <div id="zbls-case-name" class="case-name" style="color: #4dabf7;">--</div>
+                    </div>
+                </div>
+
+                <!-- Timer principal (centré) -->
+                <div class="timer-main-container">
+                    <div class="scramble-display">
+                        <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px;">Scramble</div>
+                        <div id="scramble-text" class="scramble-text">Variable Python - sera remplie dynamiquement</div>
+                        <!-- Variable pour connexion Python -->
+                        <div id="python-scramble-variable" style="display: none;" data-scramble=""></div>
+                    </div>
+
+                    <div class="timer-container">
+                        <div id="timer-display" class="timer-display">00.00</div>
+                        <div class="training-controls">
+                            <!-- Le bouton "Cas suivant" a été retiré car les cas se chargent automatiquement -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistiques et historique -->
+        <div class="training-stats">
+            <div class="stats-title" style="display: flex; align-items: center; justify-content: center;">
+    <img src="images/timer.png" alt="Timer" style="width: 36px; height: 36px; margin-right: 14px;">
+    Statistiques
+</div>
+            
+            <!-- Historique des temps -->
+            <div class="history-container">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <div style="font-size: 1.1em; font-weight: bold; color: #ffffff;">Historique</div>
+                    <button id="btn-clear-history" class="btn-clear-history">
+                        <img src="images/delete.png" alt="Delete" style="width: 16px; height: 16px; margin-right: 8px;">
+                        Vider l'historique
+                    </button>
+                </div>
+                <div class="time-history">
+                    <div id="time-list">
+                        <!-- Les temps seront ajoutés ici dynamiquement -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistiques -->
+            <div class="statistics">
+                <div class="stat-item">
+                    <div class="stat-label">Ao5</div>
+                    <div id="ao5" class="stat-value">--:--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Ao12</div>
+                    <div id="ao12" class="stat-value">--:--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Ao50</div>
+                    <div id="ao50" class="stat-value">--:--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Meilleur temps</div>
+                    <div id="best-time" class="stat-value">--:--</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Nombre de solves</div>
+                    <div id="solve-count" class="stat-value">0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre Modale pour les Algorithmes -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div id="modal-title" class="modal-title">H • FBRL</div>
+                <button id="modal-close" class="modal-close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div id="individual-cases-grid" class="individual-cases-grid">
+                    <!-- Les cas individuels seront insérés ici -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="modal-all" class="modal-btn all">Tout</button>
+                <button id="modal-none" class="modal-btn none">Aucun</button>
+                <button id="modal-done" class="modal-btn done">Terminé</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre Modale pour les Crédits -->
+    <div id="credits-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Crédits</div>
+                <button id="credits-modal-close" class="modal-close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="images/logo.png" alt="Full ZB Trainer Logo" style="width: 80px; height: 80px; margin-bottom: 15px; border-radius: 10px;">
+                    <h3 style="color: #ffd700; margin-bottom: 15px;">Full ZB Trainer</h3>
+                </div>
+                <p style="margin-bottom: 20px; line-height: 1.6;">
+                    Une application web complète pour l'entraînement des algorithmes ZBLL et ZBLS.
+                </p>
+                
+                <h4 style="color: #ffd700; margin-bottom: 10px;">Développement</h4>
+                <ul style="margin-bottom: 20px; padding-left: 20px; line-height: 1.6;">
+                    <li>Conception : 2Stynxt_</li>
+                    <li>Développement : Cascade AI Assistant</li>
+                    <li>Interface utilisateur moderne et responsive</li>
+                    <li>Gestion des algorithmes ZBLL et ZBLS</li>
+                </ul>
+                
+                <h4 style="color: #ffd700; margin-bottom: 10px;">Remerciements</h4>
+                <p style="line-height: 1.6;">
+                    Merci à la communauté du speedcubing pour les algorithmes et les ressources partagées.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button id="credits-modal-done" class="modal-btn done">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fenêtre Modale pour les Raccourcis Clavier -->
+    <div id="shortcuts-modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">⌨️ Raccourcis Clavier</div>
+                <button id="shortcuts-modal-close" class="modal-close">✕</button>
+            </div>
+            <div class="modal-content">
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <h3 style="color: #a78bfa; margin-bottom: 15px;">Raccourcis Clavier</h3>
+                </div>
+                
+                <div style="display: grid; gap: 12px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
+                        <span style="color: #e8e3f5; font-weight: 500;">Timer</span>
+                        <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">Espace</span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
+                        <span style="color: #e8e3f5; font-weight: 500;">Annuler dernière solve</span>
+                        <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">Ctrl + Z</span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
+                        <span style="color: #e8e3f5; font-weight: 500;">Cas suivant</span>
+                        <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">N</span>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
+                        <span style="color: #e8e3f5; font-weight: 500;">Retour</span>
+                        <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">Échap</span>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 12px; background: rgba(167, 139, 250, 0.1); border: 1px solid rgba(167, 139, 250, 0.2); border-radius: 6px;">
+                    <p style="color: rgba(255, 255, 255, 0.7); margin: 0; text-align: center; font-size: 0.9em;">
+                        Ces raccourcis fonctionnent uniquement en mode entraînement
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="shortcuts-modal-done" class="modal-btn done">Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de données des algorithmes ZBLL avec structure hiérarchique
+        const ZBLL_DATA = {
+            "T": {
+                "subcases": {
+                    "BBFF": [],
+                    "FBFB": [],
+                    "FFLR": [],
+                    "FLFR": [],
+                    "RFLF": [],
+                    "RLFF": []
+                }
+            },
+            "U": {
+                "subcases": {
+                    "BBFF": [],
+                    "BFFB": [],
+                    "FFLR": [],
+                    "FRLF": [],
+                    "LFFR": [],
+                    "LRFF": []
+                }
+            },
+            "L": {
+                "subcases": {
+                    "FBRL": [],
+                    "LBFF": [],
+                    "LFFB": [],
+                    "LFFR": [],
+                    "LRFF": [],
+                    "RFBL": []
+                }
+            },
+            "Pi": {
+                "subcases": {
+                    "BFFB": [],
+                    "FBFB": [],
+                    "FRFL": [],
+                    "FRLF": [],
+                    "LFRF": [],
+                    "RFFL": []
+                }
+            },
+            "S": {
+                "subcases": {
+                    "FBBF": [],
+                    "FBFB": [],
+                    "FLFR": [],
+                    "FLRF": [],
+                    "LFFR": [],
+                    "LFRF": []
+                }
+            },
+            "AS": {
+                "subcases": {
+                    "FBBF": [],
+                    "FBFB": [],
+                    "FRFL": [],
+                    "FRLF": [],
+                    "LFRF": [],
+                    "RFFL": []
+                }
+            },
+            "H": {
+                "subcases": {
+                    "BBFF": [],
+                    "FBFB": [],
+                    "RFLF": [],
+                    "RLFF": []
+                }
+            }
+        };
+
+        // Base de données ZBLS avec les 41 familles individuelles
+        const ZBLS_DATA = {};
+        
+        // Générer les 41 familles ZBLS
+        for (let i = 1; i <= 41; i++) {
+            const familyName = `F2L ${i}`;
+            ZBLS_DATA[familyName] = {
+                "cases": []
+            };
+        }
+
+        let selectedZBLL = [];
+        let selectedZBLS = [];
+
+        // Fonctions de gestion du stockage JSON
+        function saveSelectionsToJSON() {
+            const selectionsData = {
+                zbll: selectedZBLL.map(caseItem => ({
+                    id: caseItem.id,
+                    name: caseItem.name,
+                    algorithm: caseItem.algorithm || ''
+                })),
+                zbls: selectedZBLS.map(caseItem => ({
+                    id: caseItem.id,
+                    name: caseItem.name,
+                    algorithm: caseItem.algorithm || '',
+                    image: caseItem.image || ''
+                })),
+                timestamp: new Date().toISOString(),
+                version: '1.0'
+            };
+            
+            const jsonData = JSON.stringify(selectionsData, null, 2);
+            const blob = new Blob([jsonData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `zb_selections_${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            console.log('Sélections sauvegardées dans le fichier JSON');
+        }
+
+        function loadSelectionsFromJSON(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    try {
+                        const selectionsData = JSON.parse(e.target.result);
+                        
+                        // Valider la structure du JSON
+                        if (!selectionsData.zbll || !selectionsData.zbls) {
+                            throw new Error('Structure JSON invalide : il manque les données zbll ou zbls');
+                        }
+                        
+                        // Vider les sélections actuelles
+                        selectedZBLL = [];
+                        selectedZBLS = [];
+                        
+                        // Charger les sélections ZBLL
+                        selectionsData.zbll.forEach(caseItem => {
+                            // Vérifier si le cas existe dans les données ZBLL
+                            const existsInZBLL = findZBLLCaseById(caseItem.id);
+                            if (existsInZBLL) {
+                                selectedZBLL.push({
+                                    id: caseItem.id,
+                                    name: caseItem.name,
+                                    algorithm: caseItem.algorithm || existsInZBLL.algorithm || ''
+                                });
+                            }
+                        });
+                        
+                        // Charger les sélections ZBLS
+                        selectionsData.zbls.forEach(caseItem => {
+                            // Vérifier si le cas existe dans les données ZBLS
+                            const existsInZBLS = findZBLSCaseByName(caseItem.name);
+                            if (existsInZBLS) {
+                                selectedZBLS.push({
+                                    id: caseItem.id || existsInZBLS.id,
+                                    name: caseItem.name,
+                                    algorithm: caseItem.algorithm || existsInZBLS.algorithm || '',
+                                    image: caseItem.image || existsInZBLS.image || ''
+                                });
+                            }
+                        });
+                        
+                        // Mettre à jour l'affichage
+                        updateSelectionDisplay(true);
+                        
+                        console.log(`Sélections chargées : ${selectedZBLL.length} ZBLL, ${selectedZBLS.length} ZBLS`);
+                        resolve({
+                            zbllCount: selectedZBLL.length,
+                            zblsCount: selectedZBLS.length
+                        });
+                        
+                    } catch (error) {
+                        console.error('Erreur lors du chargement du fichier JSON:', error);
+                        reject(error);
+                    }
+                };
+                
+                reader.onerror = function() {
+                    reject(new Error('Erreur lors de la lecture du fichier'));
+                };
+                
+                reader.readAsText(file);
+            });
+        }
+
+        function findZBLLCaseById(caseId) {
+            for (const familyName in ZBLL_DATA) {
+                const family = ZBLL_DATA[familyName];
+                if (family.subcases) {
+                    for (const subcaseName in family.subcases) {
+                        const subcase = family.subcases[subcaseName];
+                        const found = subcase.find(caseItem => caseItem.id === caseId);
+                        if (found) return found;
+                    }
+                }
+            }
+            return null;
+        }
+
+        function findZBLSCaseByName(caseName) {
+            for (const familyName in ZBLS_DATA) {
+                const family = ZBLS_DATA[familyName];
+                if (family.cases) {
+                    const found = family.cases.find(caseItem => caseItem.name === caseName);
+                    if (found) return found;
+                }
+            }
+            return null;
+        }
+
+        function autoSaveSelections() {
+            // Sauvegarder automatiquement dans le localStorage
+            const selectionsData = {
+                zbll: selectedZBLL,
+                zbls: selectedZBLS,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('zbSelections', JSON.stringify(selectionsData));
+        }
+
+        function autoLoadSelections() {
+            try {
+                const savedData = localStorage.getItem('zbSelections');
+                if (savedData) {
+                    const selectionsData = JSON.parse(savedData);
+                    
+                    // Vider les sélections actuelles
+                    selectedZBLL = [];
+                    selectedZBLS = [];
+                    
+                    // Restaurer les sélections ZBLL
+                    if (selectionsData.zbll && Array.isArray(selectionsData.zbll)) {
+                        selectionsData.zbll.forEach(caseItem => {
+                            if (findZBLLCaseById(caseItem.id)) {
+                                selectedZBLL.push(caseItem);
+                            }
+                        });
+                    }
+                    
+                    // Restaurer les sélections ZBLS
+                    if (selectionsData.zbls && Array.isArray(selectionsData.zbls)) {
+                        selectionsData.zbls.forEach(caseItem => {
+                            if (findZBLSCaseByName(caseItem.name)) {
+                                selectedZBLS.push(caseItem);
+                            }
+                        });
+                    }
+                    
+                    console.log(`Sélections restaurées : ${selectedZBLL.length} ZBLL, ${selectedZBLS.length} ZBLS`);
+                    return true;
+                }
+            } catch (error) {
+                console.error('Erreur lors de la restauration des sélections:', error);
+            }
+            return false;
+        }
+
+        // Variables pour l'entraînement
+        let isTrainingMode = false;
+        let currentCase = null;
+        let previousCase = null;
+        let lastZBLLCase = null;
+        let lastZBLSCase = null;
+        let timerStartTime = null;
+        let timerInterval = null;
+        let isTimerRunning = false;
+        let isSpacePressed = false;
+        let spacePressStartTime = null;
+        let spaceHoldDuration = 330; // 0.33 secondes en millisecondes
+        let spaceHoldTimeout = null;
+        let timeHistory = [];
+        let allSelectedCases = [];
+
+        // État du timer
+        const TIMER_STATES = {
+            IDLE: 'idle',
+            READY: 'ready',
+            READY_TO_START: 'ready_to_start',
+            RUNNING: 'running',
+            FINISHED: 'finished'
+        };
+        let timerState = TIMER_STATES.IDLE;
+
+        // Fonctions pour charger les SVG OLL depuis des fichiers
+        function createOLLSVG(caseType) {
+            return `<img src="svgs/${caseType.toLowerCase()}-case.svg" alt="${caseType} case" class="oll-svg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                        <rect width="100" height="100" fill="#333"/>
+                        <text x="50" y="50" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold">${caseType}</text>
+                    </svg>`;
+        }
+
+        function createFamilyCard(familyName, familyData, type) {
+            const card = document.createElement('div');
+            card.className = 'family-card';
+            card.dataset.family = familyName;
+            card.dataset.type = type;
+            
+            let totalCases = 0;
+            let selectedCount = 0;
+            
+            if (type === 'zbll' && familyData.subcases) {
+                // Cas ZBLL avec sous-cas
+                Object.values(familyData.subcases).forEach(subcase => {
+                    totalCases += subcase.length;
+                });
+                selectedCount = selectedZBLL.filter(a => a.id && a.id.startsWith(familyName + '-')).length;
+            } else if (type === 'zbls' && familyData.cases) {
+                // Cas ZBLS avec structure de cas directe
+                totalCases = familyData.cases.length;
+                selectedCount = selectedZBLS.filter(a => a.name && a.name.startsWith(familyName)).length;
+            }
+            
+            card.innerHTML = `
+                <div class="family-header">
+                    <div class="family-name">${familyName}</div>
+                    <div class="family-count">${selectedCount}/${totalCases}</div>
+                </div>
+                <div class="family-oll-pattern">
+                    ${type === 'zbll' ? createOLLSVG(familyName) : `<img src="svgs/ZBLS/${familyName}-1.png" alt="${familyName}" class="family-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                        <rect width="100" height="100" fill="#4dabf7"/>
+                        <text x="50" y="50" text-anchor="middle" fill="white" font-size="12" font-weight="bold">${familyName}</text>
+                    </svg>`}
+                </div>
+                ${type === 'zbll' ? `<div class="subcases-grid">${createSubcasesGrid(familyName, familyData.subcases)}</div>` : ''}
+            `;
+            
+            // Gestion du clic sur la carte
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('.subcase-card') && !e.target.closest('.edit-trigger')) {
+                    if (e.target.closest('.family-header')) {
+                        // Clic sur l'en-tête : déplier/replier pour ZBLL, ouvrir modale pour ZBLS
+                        if (type === 'zbls') {
+                            openZBLSModal(familyName, familyData.cases);
+                        } else if (type === 'zbll') {
+                            toggleFamilyCard(card);
+                        }
+                    } else if (e.target.closest('.family-oll-pattern')) {
+                        // Clic sur l'image : sélectionner toute la famille
+                        if (type === 'zbls') {
+                            selectEntireZBLSFamily(familyName, familyData.cases);
+                        } else if (type === 'zbll') {
+                            selectEntireFamily(familyName, 'zbll');
+                        }
+                    }
+                }
+            });
+            
+            // Gestion des clics sur les sous-cas
+            if (type === 'zbll') {
+                card.querySelectorAll('.subcase-card').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const subcaseName = this.dataset.subcase;
+                        toggleSubcase(this, familyName, subcaseName, familyData.subcases[subcaseName], type);
+                    });
+                });
+                
+                // Gestion des clics sur les noms de sous-cas (pour ouvrir la modale)
+                card.querySelectorAll('.edit-trigger').forEach(trigger => {
+                    trigger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const subcaseName = this.closest('.subcase-card').dataset.subcase;
+                        openModal(familyName, subcaseName, familyData.subcases[subcaseName]);
+                    });
+                });
+            } else {
+                // Gestion pour ZBLS
+                card.querySelectorAll('.subcase-card').forEach(item => {
+                    item.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        toggleSubcase(this, familyName, '', familyData, type);
+                    });
+                });
+            }
+            
+            return card;
+        }
+
+        // Fonction pour charger dynamiquement les cas depuis les fichiers SVG
+        function loadZBLLCasesFromSVG() {
+            const families = ["T", "U", "L", "Pi", "S", "H", "AS"];
+            
+            families.forEach(family => {
+                // Définir les sous-cas existants pour chaque famille (basé sur les vrais fichiers)
+                const existingSubcases = {
+                    "T": ["BBFF", "FBFB", "FFLR", "FLFR", "RFLF", "RLFF"],
+                    "U": ["BBFF", "BFFB", "FFLR", "FRLF", "LFFR", "LRFF"],
+                    "L": ["FBRL", "LBFF", "LFFB", "LFFR", "LRFF", "RFBL"],
+                    "Pi": ["BFFB", "FBFB", "FRFL", "FRLF", "LFRF", "RFFL"],
+                    "S": ["FBBF", "FBFB", "FLFR", "FLRF", "LFFR", "LFRF"],
+                    "H": ["BBFF", "FBFB", "RFLF", "RLFF"],
+                    "AS": ["FBBF", "FBFB", "FRFL", "FRLF", "LFRF", "RFFL"]
+                };
+                
+                const subcaseTypes = existingSubcases[family] || [];
+                const allVariations = ["AsA", "AsC", "AsO", "CsA", "CsC", "CsO", "CxO", "OsA", "OsC", "OsO", "OxC", "OxO"];
+                
+                subcaseTypes.forEach(subcase => {
+                    const cases = [];
+                    
+                    // Pour H, utiliser les variations spécifiques à chaque sous-cas
+                    let actualVariations = allVariations;
+                    if (family === "H") {
+                        if (subcase === "BBFF") {
+                            actualVariations = ["AsA", "AsC", "AsO", "CsC", "CsO", "CxO", "OsO", "OxO"]; // 8 variations
+                        } else if (subcase === "FBFB") {
+                            actualVariations = ["AsA", "AsC", "AsO", "CsO", "CxO", "OsC", "OsO", "OxC"]; // 8 variations
+                        }
+                        // RFLF et RLFF ont les 12 variations complètes
+                    }
+                    
+                    actualVariations.forEach(variation => {
+                        const caseId = `${family}-${subcase}-${variation}`;
+                        // Convertir AsA -> A/A, AsC -> A/C, CxO -> CxO, OxO -> OxO, etc.
+                        let caseName;
+                        if (variation.includes('x')) {
+                            // Pour les variations avec 'x' comme CxO, OxO, OxC
+                            caseName = variation[0] + "x" + variation[2]; // CxO -> CxO
+                        } else {
+                            // Pour les variations normales comme AsA, AsC, etc.
+                            caseName = variation[0] + "/" + variation[2]; // AsA -> A/A
+                        }
+                        
+                        cases.push({
+                            id: caseId,
+                            name: caseName,
+                            algorithm: "" // Sera rempli plus tard
+                        });
+                    });
+                    
+                    ZBLL_DATA[family].subcases[subcase] = cases;
+                });
+            });
+        }
+
+        // Fonction pour charger dynamiquement les cas ZBLS depuis les fichiers PNG
+        function loadZBLSCasesFromPNG() {
+            // Pour chaque famille de 1 à 41
+            for (let i = 1; i <= 41; i++) {
+                const familyName = `F2L ${i}`;
+                const cases = [];
+                
+                // Déterminer le nombre de cas selon la famille
+                let numCases = 8; // par défaut
+                
+                if ([37, 40, 41].includes(i)) {
+                    numCases = 2;
+                } else if ([38, 39].includes(i)) {
+                    numCases = 4;
+                }
+                
+                // Créer les cas pour cette famille
+                for (let j = 1; j <= numCases; j++) {
+                    const caseName = `${familyName}-${j}`;
+                    cases.push({
+                        id: caseName,
+                        name: caseName,
+                        algorithm: "", // Sera rempli plus tard
+                        image: `svgs/ZBLS/${caseName}.png`
+                    });
+                }
+                
+                ZBLS_DATA[familyName].cases = cases;
+            }
+        }
+
+        // Fonction pour créer les grilles de sous-cas dynamiquement
+        function createSubcasesGrid(familyName, subcases) {
+            return Object.keys(subcases).map(subcaseName => {
+                const cases = subcases[subcaseName];
+                const selectedCount = selectedZBLL.filter(a => a.id && a.id.startsWith(familyName + '-' + subcaseName)).length;
+                
+                return `
+                    <div class="subcase-card ${selectedCount === cases.length ? 'selected' : selectedCount > 0 ? 'partially-selected' : ''}" 
+                         data-family="${familyName}" data-subcase="${subcaseName}">
+                        <div class="subcase-header">
+                            <div class="subcase-name edit-trigger">${subcaseName}</div>
+                            <div class="subcase-count">${selectedCount}/${cases.length}</div>
+                        </div>
+                        <div class="subcase-image">
+                            <img src="svgs/subcases/${familyName}/${familyName}-${subcaseName}.svg" 
+                                 alt="${familyName}-${subcaseName}" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                                <rect width="100" height="100" fill="#333"/>
+                                <text x="50" y="50" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold">${subcaseName}</text>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Fonction pour créer les grilles de cas ZBLS individuels
+        function createZBLSCasesGrid(familyName, cases) {
+            return cases.map(caseItem => {
+                const selectedCount = selectedZBLS.filter(a => a.name === caseItem.name).length;
+                
+                return `
+                    <div class="subcase-card ${selectedCount > 0 ? 'selected' : ''}" 
+                         data-family="${familyName}" data-case="${caseItem.name}">
+                        <div class="subcase-header">
+                            <div class="subcase-name edit-trigger">${caseItem.name}</div>
+                            <div class="subcase-count">${selectedCount > 0 ? '1' : '0'}/1</div>
+                        </div>
+                        <div class="subcase-image">
+                            <img src="${caseItem.image}" 
+                                 alt="${caseItem.name}" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                                <rect width="100" height="100" fill="#4dabf7"/>
+                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8" font-weight="bold">${caseItem.name}</text>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleFamilyCard(card) {
+            // Basculer la carte actuelle sans fermer les autres
+            card.classList.toggle('expanded');
+        }
+
+        function selectEntireFamily(familyName, type) {
+            if (type === 'zbll') {
+                const familyData = ZBLL_DATA[familyName];
+                let allSelected = true;
+                
+                // Vérifier si tous les cas sont déjà sélectionnés
+                Object.values(familyData.subcases).forEach(subcase => {
+                    subcase.forEach(caseItem => {
+                        if (!selectedZBLL.some(selected => selected.id === caseItem.id)) {
+                            allSelected = false;
+                        }
+                    });
+                });
+                
+                if (allSelected) {
+                    // Désélectionner toute la famille
+                    Object.values(familyData.subcases).forEach(subcase => {
+                        subcase.forEach(caseItem => {
+                            const index = selectedZBLL.findIndex(selected => selected.id === caseItem.id);
+                            if (index > -1) {
+                                selectedZBLL.splice(index, 1);
+                            }
+                        });
+                    });
+                } else {
+                    // Sélectionner toute la famille
+                    Object.values(familyData.subcases).forEach(subcase => {
+                        subcase.forEach(caseItem => {
+                            if (!selectedZBLL.some(selected => selected.id === caseItem.id)) {
+                                selectedZBLL.push(caseItem);
+                            }
+                        });
+                    });
+                }
+            } else if (type === 'zbls') {
+                const familyData = ZBLS_DATA[familyName];
+                const allSelected = familyData.every(item => 
+                    selectedZBLS.some(selected => selected.name === item.name)
+                );
+                
+                if (allSelected) {
+                    // Désélectionner toute la famille
+                    familyData.forEach(item => {
+                        const index = selectedZBLS.findIndex(selected => selected.name === item.name);
+                        if (index > -1) {
+                            selectedZBLS.splice(index, 1);
+                        }
+                    });
+                } else {
+                    // Sélectionner toute la famille
+                    familyData.forEach(item => {
+                        if (!selectedZBLS.some(selected => selected.name === item.name)) {
+                            selectedZBLS.push(item);
+                        }
+                    });
+                }
+            }
+            
+            // Sauvegarder automatiquement après chaque modification
+            autoSaveSelections();
+            updateSelectionDisplay(true); // true = forcer la mise à jour complète pour voir le changement
+        }
+
+        // Fonction spécialisée pour sélectionner toute une famille ZBLS
+        function selectEntireZBLSFamily(familyName, cases) {
+            const allSelected = cases.every(item => 
+                selectedZBLS.some(selected => selected.name === item.name)
+            );
+            
+            if (allSelected) {
+                // Désélectionner toute la famille
+                cases.forEach(item => {
+                    const index = selectedZBLS.findIndex(selected => selected.name === item.name);
+                    if (index > -1) {
+                        selectedZBLS.splice(index, 1);
+                    }
+                });
+            } else {
+                // Sélectionner toute la famille
+                cases.forEach(item => {
+                    if (!selectedZBLS.some(selected => selected.name === item.name)) {
+                        selectedZBLS.push(item);
+                    }
+                });
+            }
+            
+            // Sauvegarder automatiquement après chaque modification
+            autoSaveSelections();
+            updateFamilyCount(familyName, 'zbls');
+            updateSelectionDisplay(true); // true = forcer la mise à jour complète pour voir le changement
+        }
+
+        function toggleSubcase(card, familyName, subcaseName, cases, type) {
+            if (type === 'zbll') {
+                // Compter combien de cas sont déjà sélectionnés
+                const selectedCount = cases.filter(caseItem => 
+                    selectedZBLL.some(selected => selected.id === caseItem.id)
+                ).length;
+                
+                if (selectedCount === 0) {
+                    // Aucun cas sélectionné : tout sélectionner
+                    cases.forEach(caseItem => {
+                        selectedZBLL.push(caseItem);
+                    });
+                    card.classList.add('selected');
+                    card.classList.remove('partially-selected');
+                } else if (selectedCount === cases.length) {
+                    // Tous les cas sont sélectionnés : tout désélectionner
+                    cases.forEach(caseItem => {
+                        const index = selectedZBLL.findIndex(selected => selected.id === caseItem.id);
+                        if (index > -1) {
+                            selectedZBLL.splice(index, 1);
+                        }
+                    });
+                    card.classList.remove('selected', 'partially-selected');
+                } else {
+                    // Certains cas sont sélectionnés : tout désélectionner
+                    cases.forEach(caseItem => {
+                        const index = selectedZBLL.findIndex(selected => selected.id === caseItem.id);
+                        if (index > -1) {
+                            selectedZBLL.splice(index, 1);
+                        }
+                    });
+                    card.classList.remove('selected', 'partially-selected');
+                }
+            } else {
+                // Logique pour ZBLS
+                const index = selectedZBLS.findIndex(a => a.name === cases.name);
+                if (index > -1) {
+                    selectedZBLS.splice(index, 1);
+                    card.classList.remove('selected');
+                } else {
+                    selectedZBLS.push(cases);
+                    card.classList.add('selected');
+                }
+            }
+            
+            // Sauvegarder automatiquement après chaque modification
+            autoSaveSelections();
+            updateSelectionDisplay();
+        }
+
+        function openModal(familyName, subcaseName, cases) {
+            const modal = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const grid = document.getElementById('individual-cases-grid');
+            
+            modalTitle.textContent = `${familyName} • ${subcaseName}`;
+            
+            // Filtrer les cas pour n'afficher que les variations individuelles
+            const individualCases = cases.filter(caseItem => 
+                caseItem.id && caseItem.id.includes('-') && 
+                !caseItem.id.endsWith(`-${subcaseName}`)
+            );
+            
+            // Stocker les cas dans la modale pour y accéder depuis les boutons
+            modal.dataset.currentFamily = familyName;
+            modal.dataset.currentSubcase = subcaseName;
+            modal.dataset.currentCases = JSON.stringify(individualCases);
+            
+            grid.innerHTML = individualCases.map(caseItem => {
+                const isSelected = selectedZBLL.some(selected => selected.id === caseItem.id);
+                return `
+                    <div class="individual-case-card ${isSelected ? 'selected' : ''}" data-case-id="${caseItem.id}">
+                        <div class="individual-case-image">
+                            <img src="svgs/subcases/${familyName}/${caseItem.id}.svg" 
+                                 alt="${caseItem.name}" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                                <rect width="100" height="100" fill="#333"/>
+                                <text x="50" y="50" text-anchor="middle" fill="#ffd700" font-size="8">${caseItem.name}</text>
+                            </svg>
+                        </div>
+                        <div class="individual-case-name">${caseItem.name}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Gestion des clics sur les cartes individuelles
+            grid.querySelectorAll('.individual-case-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const caseId = this.dataset.caseId;
+                    const caseItem = individualCases.find(c => c.id === caseId);
+                    
+                    if (this.classList.contains('selected')) {
+                        // Désélectionner
+                        const index = selectedZBLL.findIndex(selected => selected.id === caseId);
+                        if (index > -1) {
+                            selectedZBLL.splice(index, 1);
+                        }
+                        this.classList.remove('selected');
+                    } else {
+                        // Sélectionner
+                        if (!selectedZBLL.some(selected => selected.id === caseId)) {
+                            selectedZBLL.push(caseItem);
+                        }
+                        this.classList.add('selected');
+                    }
+                    
+                    // Sauvegarder automatiquement après chaque modification
+                    autoSaveSelections();
+                    updateFamilyCount(familyName, 'zbll');
+                    updateSelectionDisplay(false); // false = ne pas mettre à jour tous les compteurs
+                });
+            });
+            
+            modal.classList.add('active');
+        }
+
+        // Fonction pour ouvrir la modale ZBLS avec tous les cas d'une famille
+        function openZBLSModal(familyName, cases) {
+            const modal = document.getElementById('modal-overlay');
+            const modalTitle = document.getElementById('modal-title');
+            const grid = document.getElementById('individual-cases-grid');
+            
+            modalTitle.textContent = `ZBLS - ${familyName}`;
+            
+            // Stocker les cas dans la modale pour y accéder depuis les boutons
+            modal.dataset.currentFamily = familyName;
+            modal.dataset.currentType = 'zbls';
+            modal.dataset.currentCases = JSON.stringify(cases);
+            
+            grid.innerHTML = cases.map(caseItem => {
+                const isSelected = selectedZBLS.some(selected => selected.name === caseItem.name);
+                return `
+                    <div class="individual-case-card ${isSelected ? 'selected' : ''}" data-case-name="${caseItem.name}">
+                        <div class="individual-case-image">
+                            <img src="${caseItem.image}" 
+                                 alt="${caseItem.name}" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
+                                <rect width="100" height="100" fill="#4dabf7"/>
+                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8">${caseItem.name}</text>
+                            </svg>
+                        </div>
+                        <div class="individual-case-name">${caseItem.name}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            // Gestion des clics sur les cartes individuelles
+            grid.querySelectorAll('.individual-case-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const caseName = this.dataset.caseName;
+                    const caseItem = cases.find(c => c.name === caseName);
+                    
+                    if (this.classList.contains('selected')) {
+                        // Désélectionner
+                        const index = selectedZBLS.findIndex(selected => selected.name === caseName);
+                        if (index > -1) {
+                            selectedZBLS.splice(index, 1);
+                        }
+                        this.classList.remove('selected');
+                    } else {
+                        // Sélectionner
+                        if (!selectedZBLS.some(selected => selected.name === caseName)) {
+                            selectedZBLS.push(caseItem);
+                        }
+                        this.classList.add('selected');
+                    }
+                    
+                    // Sauvegarder automatiquement après chaque modification
+                    autoSaveSelections();
+                    updateFamilyCount(familyName, 'zbls');
+                    updateSelectionDisplay(false); // false = ne pas mettre à jour tous les compteurs
+                });
+            });
+            
+            modal.classList.add('active');
+        }
+
+        // Gestion des boutons de la modale
+        document.getElementById('modal-close').addEventListener('click', function() {
+            document.getElementById('modal-overlay').classList.remove('active');
+        });
+
+        // Gestion de la modale des crédits
+        document.getElementById('credits-btn').addEventListener('click', function() {
+            document.getElementById('credits-modal-overlay').classList.add('active');
+        });
+
+        document.getElementById('credits-modal-close').addEventListener('click', function() {
+            document.getElementById('credits-modal-overlay').classList.remove('active');
+        });
+
+        document.getElementById('credits-modal-done').addEventListener('click', function() {
+            document.getElementById('credits-modal-overlay').classList.remove('active');
+        });
+
+        // Gestion de la modale des raccourcis
+        document.getElementById('shortcuts-btn').addEventListener('click', function() {
+            document.getElementById('shortcuts-modal-overlay').classList.add('active');
+        });
+
+        document.getElementById('shortcuts-modal-close').addEventListener('click', function() {
+            document.getElementById('shortcuts-modal-overlay').classList.remove('active');
+        });
+
+        document.getElementById('shortcuts-modal-done').addEventListener('click', function() {
+            document.getElementById('shortcuts-modal-overlay').classList.remove('active');
+        });
+
+        document.getElementById('modal-all').addEventListener('click', function() {
+            const modal = document.getElementById('modal-overlay');
+            const modalGrid = document.getElementById('individual-cases-grid');
+            const familyName = modal.dataset.currentFamily;
+            const type = modal.dataset.currentType || 'zbll';
+            const cases = JSON.parse(modal.dataset.currentCases || '[]');
+            
+            modalGrid.querySelectorAll('.individual-case-card').forEach(card => {
+                const caseId = card.dataset.caseId || card.dataset.caseName;
+                const caseItem = cases.find(c => (c.id && c.id === caseId) || (c.name && c.name === caseId));
+                
+                if (type === 'zbls') {
+                    // Pour ZBLS
+                    if (!selectedZBLS.some(selected => selected.name === caseId)) {
+                        selectedZBLS.push(caseItem);
+                    }
+                    card.classList.add('selected');
+                } else {
+                    // Pour ZBLL
+                    if (!selectedZBLL.some(selected => selected.id === caseId)) {
+                        selectedZBLL.push(caseItem);
+                    }
+                    card.classList.add('selected');
+                }
+            });
+            
+            // Sauvegarder automatiquement après chaque modification
+            autoSaveSelections();
+            updateFamilyCount(familyName, type);
+            updateSelectionDisplay(false); // false = ne pas mettre à jour tous les compteurs
+        });
+
+        document.getElementById('modal-none').addEventListener('click', function() {
+            const modal = document.getElementById('modal-overlay');
+            const modalGrid = document.getElementById('individual-cases-grid');
+            const familyName = modal.dataset.currentFamily;
+            const type = modal.dataset.currentType || 'zbll';
+            const cases = JSON.parse(modal.dataset.currentCases || '[]');
+            
+            modalGrid.querySelectorAll('.individual-case-card').forEach(card => {
+                const caseId = card.dataset.caseId || card.dataset.caseName;
+                
+                if (type === 'zbls') {
+                    // Pour ZBLS
+                    const index = selectedZBLS.findIndex(selected => selected.name === caseId);
+                    if (index > -1) {
+                        selectedZBLS.splice(index, 1);
+                    }
+                } else {
+                    // Pour ZBLL
+                    const index = selectedZBLL.findIndex(selected => selected.id === caseId);
+                    if (index > -1) {
+                        selectedZBLL.splice(index, 1);
+                    }
+                }
+                card.classList.remove('selected');
+            });
+            
+            // Sauvegarder automatiquement après chaque modification
+            autoSaveSelections();
+            updateFamilyCount(familyName, type);
+            updateSelectionDisplay(false); // false = ne pas mettre à jour tous les compteurs
+        });
+
+        document.getElementById('modal-done').addEventListener('click', function() {
+            document.getElementById('modal-overlay').classList.remove('active');
+        });
+
+        function updateFamilyCount(familyName, type) {
+            const card = document.querySelector(`.family-card[data-family="${familyName}"][data-type="${type}"]`);
+            if (!card) return;
+            
+            const familyData = type === 'zbll' ? ZBLL_DATA[familyName] : ZBLS_DATA[familyName];
+            let totalCases = 0;
+            let selectedCount = 0;
+            
+            if (type === 'zbll' && familyData.subcases) {
+                Object.values(familyData.subcases).forEach(subcase => {
+                    totalCases += subcase.length;
+                });
+                selectedCount = selectedZBLL.filter(a => a.id && a.id.startsWith(familyName + '-')).length;
+            } else if (type === 'zbls') {
+                totalCases = familyData.cases.length;
+                selectedCount = selectedZBLS.filter(a => a.name && a.name.startsWith(familyName)).length;
+            }
+            
+            const countElement = card.querySelector('.family-count');
+            countElement.textContent = `${selectedCount}/${totalCases}`;
+            
+            // Mettre à jour l'état visuel de la carte
+            if (selectedCount === 0) {
+                card.classList.remove('selected', 'partially-selected');
+            } else if (selectedCount === totalCases) {
+                card.classList.add('selected');
+                card.classList.remove('partially-selected');
+            } else {
+                card.classList.add('partially-selected');
+                card.classList.remove('selected');
+            }
+            
+            // Mettre à jour les sous-cas
+            card.querySelectorAll('.subcase-card').forEach(subcaseCard => {
+                const subcaseName = subcaseCard.dataset.subcase;
+                if (subcaseName && familyData.subcases && familyData.subcases[subcaseName]) {
+                    const subcaseCases = familyData.subcases[subcaseName];
+                    const subcaseSelected = selectedZBLL.filter(a => a.id && a.id.startsWith(familyName + '-' + subcaseName)).length;
+                    const subcaseCount = subcaseCard.querySelector('.subcase-count');
+                    subcaseCount.textContent = `${subcaseSelected}/${subcaseCases.length}`;
+                    
+                    if (subcaseSelected === 0) {
+                        subcaseCard.classList.remove('selected', 'partially-selected');
+                    } else if (subcaseSelected === subcaseCases.length) {
+                        subcaseCard.classList.add('selected');
+                        subcaseCard.classList.remove('partially-selected');
+                    } else {
+                        subcaseCard.classList.add('partially-selected');
+                        subcaseCard.classList.remove('selected');
+                    }
+                }
+            });
+        }
+
+        function updateSelectionDisplay(updateAllCounts = true) {
+            const trainingBtn = document.getElementById('training-btn');
+            const zbllCount = document.getElementById('zbll-count');
+            const zblsCount = document.getElementById('zbls-count');
+            
+            zbllCount.textContent = selectedZBLL.length;
+            zblsCount.textContent = selectedZBLS.length;
+            
+            // Mettre à jour les comptes pour toutes les familles ZBLL
+            if (updateAllCounts) {
+                Object.keys(ZBLL_DATA).forEach(familyName => {
+                    updateFamilyCount(familyName, 'zbll');
+                });
+                
+                // Mettre à jour les comptes pour toutes les familles ZBLS
+                Object.keys(ZBLS_DATA).forEach(familyName => {
+                    updateFamilyCount(familyName, 'zbls');
+                });
+            }
+            
+            // Activer/désactiver le bouton d'entraînement
+            if (selectedZBLL.length > 0 && selectedZBLS.length > 0) {
+                trainingBtn.disabled = false;
+            } else {
+                trainingBtn.disabled = true;
+            }
+        }
+
+        // Fonctions pour l'entraînement
+        function startTraining() {
+            if (selectedZBLL.length === 0 || selectedZBLS.length === 0) {
+                return;
+            }
+
+            // Combiner tous les cas sélectionnés
+            allSelectedCases = [...selectedZBLL, ...selectedZBLS];
+            
+            if (allSelectedCases.length === 0) {
+                return;
+            }
+
+            isTrainingMode = true;
+            
+            // Masquer la vue de sélection et afficher la vue d'entraînement
+            document.querySelector('.selection-panel').style.display = 'none';
+            document.querySelector('.control-panel').style.display = 'none';
+            document.getElementById('training-view').classList.add('active');
+            
+            // Afficher le bouton retour dans le header mais garder le bouton crédits
+            document.getElementById('btn-back-top').style.display = 'block';
+            
+            // Initialiser l'affichage des derniers cas
+            updateLastCasesDisplay();
+            
+            // Charger un premier cas
+            loadNextCase();
+            
+            // Initialiser les écouteurs d'événements clavier
+            setupKeyboardListeners();
+        }
+
+        function stopTraining() {
+            isTrainingMode = false;
+            
+            // Afficher la vue de sélection et masquer la vue d'entraînement
+            document.querySelector('.selection-panel').style.display = 'flex';
+            document.querySelector('.control-panel').style.display = 'block';
+            document.getElementById('training-view').classList.remove('active');
+            
+            // Masquer le bouton retour dans le header
+            document.getElementById('btn-back-top').style.display = 'none';
+            
+            // Arrêter le timer
+            stopTimer();
+            
+            // Retirer les écouteurs d'événements
+            removeKeyboardListeners();
+        }
+
+        function loadNextCase() {
+            if (allSelectedCases.length === 0) return;
+            
+            // Sauvegarder le cas actuel comme précédent
+            if (currentCase) {
+                previousCase = currentCase;
+            }
+            
+            // Choisir un cas aléatoire
+            const randomIndex = Math.floor(Math.random() * allSelectedCases.length);
+            currentCase = allSelectedCases[randomIndex];
+            
+            // Générer un scramble
+            generateScramble();
+            
+            // Réinitialiser le timer
+            resetTimer();
+        }
+
+        function updateLastCasesDisplay() {
+            // Mettre à jour le dernier cas ZBLL
+            const zbllImage = document.getElementById('zbll-case-image');
+            const zbllName = document.getElementById('zbll-case-name');
+            
+            if (lastZBLLCase) {
+                const parts = lastZBLLCase.id.split('-');
+                const family = parts[0];
+                zbllImage.src = `svgs/${family}-case.svg`;
+                zbllImage.onerror = function() {
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                };
+                zbllName.textContent = lastZBLLCase.name || `${family} • ${parts[1]} • ${parts[2]}`;
+            } else {
+                zbllImage.src = '';
+                zbllImage.style.display = 'none';
+                zbllImage.nextElementSibling.style.display = 'flex';
+                zbllName.textContent = '--';
+            }
+            
+            // Mettre à jour le dernier cas ZBLS
+            const zblsImage = document.getElementById('zbls-case-image');
+            const zblsName = document.getElementById('zbls-case-name');
+            
+            if (lastZBLSCase) {
+                zblsImage.src = lastZBLSCase.image || `svgs/ZBLS/${lastZBLSCase.name}.png`;
+                zblsImage.onerror = function() {
+                    this.style.display = 'none';
+                    this.nextElementSibling.style.display = 'flex';
+                };
+                zblsName.textContent = lastZBLSCase.name || 'ZBLS';
+            } else {
+                zblsImage.src = '';
+                zblsImage.style.display = 'none';
+                zblsImage.nextElementSibling.style.display = 'flex';
+                zblsName.textContent = '--';
+            }
+        }
+
+        function generateScramble() {
+            const moves = ['U', 'D', 'R', 'L', 'F', 'B'];
+            const modifiers = ['', "'", '2'];
+            const scrambleLength = 20;
+            let scramble = [];
+            let lastMove = '';
+            
+            for (let i = 0; i < scrambleLength; i++) {
+                let move;
+                do {
+                    move = moves[Math.floor(Math.random() * moves.length)];
+                } while (move === lastMove);
+                
+                lastMove = move;
+                const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
+                scramble.push(move + modifier);
+            }
+            
+            document.getElementById('scramble-text').textContent = scramble.join(' ');
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timerState = TIMER_STATES.IDLE;
+            isSpacePressed = false;
+            spacePressStartTime = null;
+            if (spaceHoldTimeout) {
+                clearTimeout(spaceHoldTimeout);
+                spaceHoldTimeout = null;
+            }
+            updateTimerDisplay(0);
+            
+            const timerDisplay = document.getElementById('timer-display');
+            timerDisplay.classList.remove('ready', 'ready_to_start', 'running');
+        }
+
+        function startTimer() {
+            if (isTimerRunning) return;
+            
+            timerStartTime = Date.now();
+            isTimerRunning = true;
+            timerState = TIMER_STATES.RUNNING;
+            
+            const timerDisplay = document.getElementById('timer-display');
+            timerDisplay.classList.remove('ready');
+            timerDisplay.classList.add('running');
+            
+            timerInterval = setInterval(updateTimer, 10);
+        }
+
+        function stopTimer() {
+            if (!isTimerRunning) return;
+            
+            isTimerRunning = false;
+            clearInterval(timerInterval);
+            
+            const endTime = Date.now();
+            const solveTime = (endTime - timerStartTime) / 1000;
+            
+            timerState = TIMER_STATES.FINISHED;
+            isSpacePressed = false;
+            spacePressStartTime = null;
+            if (spaceHoldTimeout) {
+                clearTimeout(spaceHoldTimeout);
+                spaceHoldTimeout = null;
+            }
+            
+            const timerDisplay = document.getElementById('timer-display');
+            timerDisplay.classList.remove('running', 'ready', 'ready_to_start');
+            
+            // Ajouter le temps à l'historique
+            addTimeToHistory(solveTime);
+            
+            // Charger automatiquement le cas suivant
+            loadNextCase();
+            
+            // Réinitialiser après un court délai pour permettre le prochain timer
+            setTimeout(() => {
+                if (timerState === TIMER_STATES.FINISHED) {
+                    resetTimer();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            if (!isTimerRunning) return;
+            
+            const currentTime = Date.now();
+            const elapsed = (currentTime - timerStartTime) / 1000;
+            updateTimerDisplay(elapsed);
+        }
+
+        function updateTimerDisplay(timeInSeconds) {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+            
+            let display;
+            if (minutes > 0) {
+                display = `${minutes.toString().padStart(2, '0')}:${seconds.toFixed(2).padStart(5, '0')}`;
+            } else {
+                display = seconds.toFixed(2).padStart(5, '0');
+            }
+            
+            document.getElementById('timer-display').textContent = display;
+        }
+
+        function addTimeToHistory(timeInSeconds) {
+            const timeEntry = {
+                time: timeInSeconds,
+                case: currentCase.name || 'Unknown',
+                timestamp: Date.now()
+            };
+            
+            timeHistory.unshift(timeEntry);
+            
+            // Mettre à jour les derniers cas selon le type
+            if (currentCase.id && currentCase.id.includes('-')) {
+                // C'est un cas ZBLL
+                lastZBLLCase = currentCase;
+            } else {
+                // C'est un cas ZBLS
+                lastZBLSCase = currentCase;
+            }
+            
+            // Mettre à jour l'affichage des derniers cas
+            updateLastCasesDisplay();
+            
+            // Limiter l'historique à 100 entrées
+            if (timeHistory.length > 100) {
+                timeHistory = timeHistory.slice(0, 100);
+            }
+            
+            updateTimeHistoryDisplay();
+            updateStatistics();
+        }
+
+        function updateTimeHistoryDisplay() {
+            const timeList = document.getElementById('time-list');
+            
+            if (timeHistory.length === 0) {
+                timeList.innerHTML = '<div style="color: rgba(255, 255, 255, 0.6); text-align: center;">Aucun temps enregistré</div>';
+                return;
+            }
+            
+            // Afficher les 10 derniers temps avec séparation Ao5
+            const displayItems = timeHistory.slice(0, 10);
+            let html = '';
+            
+            displayItems.forEach((entry, index) => {
+                const timeStr = formatTime(entry.time);
+                html += `
+                    <div class="time-item">
+                        <span class="time">${timeStr}</span>
+                        <span class="case">${entry.case}</span>
+                    </div>
+                `;
+                
+                // Ajouter le séparateur Ao5 après le 5ème élément
+                if (index === 4) {
+                    html += '<div class="ao5-separator"></div>';
+                }
+            });
+            
+            timeList.innerHTML = html;
+        }
+
+        function formatTime(timeInSeconds) {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+            
+            if (minutes > 0) {
+                return `${minutes.toString().padStart(2, '0')}:${seconds.toFixed(2).padStart(5, '0')}`;
+            } else {
+                return seconds.toFixed(2).padStart(5, '0');
+            }
+        }
+
+        function updateStatistics() {
+            if (timeHistory.length === 0) {
+                document.getElementById('ao5').textContent = '--:--';
+                document.getElementById('ao12').textContent = '--:--';
+                document.getElementById('ao50').textContent = '--:--';
+                document.getElementById('best-time').textContent = '--:--';
+                document.getElementById('solve-count').textContent = '0';
+                return;
+            }
+            
+            // Nombre de solves
+            document.getElementById('solve-count').textContent = timeHistory.length;
+            
+            // Calculer le meilleur temps
+            const bestTime = Math.min(...timeHistory.map(entry => entry.time));
+            document.getElementById('best-time').textContent = formatTime(bestTime);
+            
+            // Ao5 - retirer le meilleur et pire temps, faire moyenne des 3 restants
+            if (timeHistory.length >= 5) {
+                const ao5Times = timeHistory.slice(0, 5).map(entry => entry.time);
+                const sortedAo5 = [...ao5Times].sort((a, b) => a - b);
+                // Retirer le premier (meilleur) et le dernier (pire)
+                const middleTimes = sortedAo5.slice(1, 4); // Prendre les 3 temps du milieu
+                const ao5 = middleTimes.reduce((sum, time) => sum + time, 0) / 3;
+                document.getElementById('ao5').textContent = formatTime(ao5);
+            } else {
+                document.getElementById('ao5').textContent = '--:--';
+            }
+            
+            // Ao12 - retirer le meilleur et pire temps, faire moyenne des 10 restants
+            if (timeHistory.length >= 12) {
+                const ao12Times = timeHistory.slice(0, 12).map(entry => entry.time);
+                const sortedAo12 = [...ao12Times].sort((a, b) => a - b);
+                // Retirer le premier (meilleur) et le dernier (pire)
+                const middleTimes = sortedAo12.slice(1, 11); // Prendre les 10 temps du milieu
+                const ao12 = middleTimes.reduce((sum, time) => sum + time, 0) / 10;
+                document.getElementById('ao12').textContent = formatTime(ao12);
+            } else {
+                document.getElementById('ao12').textContent = '--:--';
+            }
+            
+            // Ao50 - retirer les 3 meilleurs et 3 pires temps, faire moyenne des 44 restants
+            if (timeHistory.length >= 50) {
+                const ao50Times = timeHistory.slice(0, 50).map(entry => entry.time);
+                const sortedAo50 = [...ao50Times].sort((a, b) => a - b);
+                // Retirer les 3 premiers (meilleurs) et les 3 derniers (pires)
+                const middleTimes = sortedAo50.slice(3, 47); // Prendre les 44 temps du milieu
+                const ao50 = middleTimes.reduce((sum, time) => sum + time, 0) / 44;
+                document.getElementById('ao50').textContent = formatTime(ao50);
+            } else {
+                document.getElementById('ao50').textContent = '--:--';
+            }
+        }
+
+        function deleteLastSolve() {
+            if (timeHistory.length === 0) {
+                console.log('Aucune solve à supprimer');
+                return;
+            }
+            
+            // Supprimer la première solve de l'historique
+            const deletedSolve = timeHistory.shift();
+            console.log(`Dernière solve supprimée: ${deletedSolve.case} - ${formatTime(deletedSolve.time)}`);
+            
+            // Mettre à jour l'affichage
+            updateTimeHistoryDisplay();
+            updateStatistics();
+            
+            // Si on avait des derniers cas enregistrés, on peut aussi les mettre à jour
+            // mais pour simplifier, on ne touche pas aux derniers cas affichés
+        }
+
+        function clearHistory() {
+            if (confirm('Êtes-vous sûr de vouloir vider tout l\'historique ?')) {
+                timeHistory = [];
+                updateStatistics();
+                
+                // Vider l'affichage de l'historique
+                const timeList = document.getElementById('time-list');
+                timeList.innerHTML = '';
+                
+                console.log('Historique vidé');
+            }
+        }
+
+        function setupKeyboardListeners() {
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('keyup', handleKeyUp);
+        }
+
+        function removeKeyboardListeners() {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('keyup', handleKeyUp);
+        }
+
+        function handleKeyDown(event) {
+            if (!isTrainingMode) return;
+            
+            // Empêcher le comportement par défaut pour tous les espaces
+            if (event.code === 'Space') {
+                event.preventDefault();
+            }
+            
+            // Gérer Ctrl+Z pour supprimer la dernière solve
+            if (event.ctrlKey && event.key === 'z') {
+                event.preventDefault();
+                deleteLastSolve();
+                return;
+            }
+            
+            // Gérer N pour le cas suivant
+            if (event.key === 'n' || event.key === 'N') {
+                event.preventDefault();
+                loadNextCase();
+                return;
+            }
+            
+            // Gérer Échap pour retourner à la sélection
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                stopTraining();
+                return;
+            }
+            
+            if (event.code === 'Space') {
+                if (!isSpacePressed && timerState === TIMER_STATES.IDLE) {
+                    // Premier appui sur espace : commencer à compter
+                    isSpacePressed = true;
+                    spacePressStartTime = Date.now();
+                    timerState = TIMER_STATES.READY;
+                    
+                    const timerDisplay = document.getElementById('timer-display');
+                    timerDisplay.classList.add('ready');
+                    
+                    // Configurer un timeout pour passer au vert après 0.33s
+                    spaceHoldTimeout = setTimeout(() => {
+                        if (isSpacePressed && spacePressStartTime) {
+                            // L'utilisateur maintient l'espace depuis 0.33s : passer au vert
+                            timerState = TIMER_STATES.READY_TO_START;
+                            timerDisplay.classList.remove('ready');
+                            timerDisplay.classList.add('ready_to_start');
+                            console.log('Espace maintenu depuis 0.33s - prêt à démarrer (vert)');
+                        }
+                    }, spaceHoldDuration);
+                    
+                    console.log('Timer ready - space pressed, maintenez pendant 0.33s');
+                } else if (isSpacePressed && (timerState === TIMER_STATES.READY || timerState === TIMER_STATES.READY_TO_START)) {
+                    // Espace maintenu - ne fait rien, attend la release
+                    console.log('Space still pressed - timer ready');
+                } else if (isTimerRunning && timerState === TIMER_STATES.RUNNING) {
+                    // Espace pendant que le timer tourne : arrêt du timer
+                    event.preventDefault();
+                    stopTimer();
+                    console.log('Timer stopped - space pressed');
+                }
+            }
+        }
+
+        function handleKeyUp(event) {
+            if (!isTrainingMode) return;
+            
+            if (event.code === 'Space' && isSpacePressed) {
+                event.preventDefault();
+                const holdTime = Date.now() - spacePressStartTime;
+                
+                if (spaceHoldTimeout) {
+                    clearTimeout(spaceHoldTimeout);
+                    spaceHoldTimeout = null;
+                }
+                
+                isSpacePressed = false;
+                spacePressStartTime = null;
+                
+                if (timerState === TIMER_STATES.READY || timerState === TIMER_STATES.READY_TO_START) {
+                    if (holdTime >= spaceHoldDuration) {
+                        // L'utilisateur a maintenu l'espace pendant au moins 0.33s : démarrage du timer
+                        const timerDisplay = document.getElementById('timer-display');
+                        timerDisplay.classList.remove('ready', 'ready_to_start');
+                        startTimer();
+                        console.log(`Timer started - space released after ${holdTime}ms`);
+                    } else {
+                        // L'utilisateur a relâché trop tôt : retour à l'état IDLE
+                        timerState = TIMER_STATES.IDLE;
+                        const timerDisplay = document.getElementById('timer-display');
+                        timerDisplay.classList.remove('ready');
+                        console.log(`Timer reset - space released too early after ${holdTime}ms (need ${spaceHoldDuration}ms)`);
+                    }
+                }
+            }
+        }
+
+        // Initialisation
+        function initializeApp() {
+            // Charger les cas ZBLL depuis les fichiers SVG
+            loadZBLLCasesFromSVG();
+            
+            // Charger les cas ZBLS depuis les fichiers PNG
+            loadZBLSCasesFromPNG();
+            
+            // Attendre un peu que les données soient chargées
+            setTimeout(() => {
+                // Tenter de charger les sélections sauvegardées automatiquement
+                const hasLoadedSelections = autoLoadSelections();
+                
+                // Créer les cartes ZBLL
+                const zbllFamilies = document.getElementById('zbll-families');
+                Object.keys(ZBLL_DATA).forEach(family => {
+                    const card = createFamilyCard(family, ZBLL_DATA[family], 'zbll');
+                    zbllFamilies.appendChild(card);
+                });
+                
+                // Créer les cartes ZBLS (41 familles individuelles)
+                const zblsFamilies = document.getElementById('zbls-families-container');
+                Object.keys(ZBLS_DATA).forEach(familyName => {
+                    const card = createFamilyCard(familyName, ZBLS_DATA[familyName], 'zbls');
+                    zblsFamilies.appendChild(card);
+                });
+                
+                updateSelectionDisplay(true); // true = mettre à jour tous les compteurs une seule fois
+                
+                // Ajouter les gestionnaires d'événements pour l'entraînement
+                document.getElementById('training-btn').addEventListener('click', startTraining);
+                document.getElementById('btn-back-top').addEventListener('click', stopTraining);
+                document.getElementById('btn-clear-history').addEventListener('click', clearHistory);
+                document.getElementById('btn-next').addEventListener('click', loadNextCase);
+                
+                // Afficher un message si des sélections ont été restaurées
+                if (hasLoadedSelections) {
+                    console.log('Sélections précédentes restaurées avec succès');
+                }
+            }, 100);
+        }
+
+        // Démarrer l'application
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>

@@ -1131,6 +1131,19 @@
             fill: #1e293b;
         }
 
+        body.light-theme .svg-text {
+            fill: #1e293b !important;
+        }
+
+        /* Styles pour les textes du mode entraînement en mode clair */
+        body.light-theme .training-view div[style*="color: rgba(255, 255, 255, 0.8)"] {
+            color: rgba(30, 41, 59, 0.8) !important;
+        }
+
+        body.light-theme .training-view div[style*="color: #ffffff"] {
+            color: #1e293b !important;
+        }
+
         /* Styles pour la modale des raccourcis en mode clair */
         body.light-theme .shortcuts-modal-overlay .modal-content div[style*="background: rgba(15, 10, 26, 0.7)"] {
             background: rgba(255, 255, 255, 0.8) !important;
@@ -1248,6 +1261,70 @@
             color: #86efac;
             border-color: rgba(34, 197, 94, 0.2);
             transform: scale(1.02);
+        }
+
+        body.light-theme .timer-display.ready {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(220, 38, 38, 0.2));
+            color: #dc2626;
+            border-color: rgba(239, 68, 68, 0.4);
+            transform: scale(1.02);
+        }
+
+        body.light-theme .timer-display.ready_to_start {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(22, 163, 74, 0.2));
+            color: #059669;
+            border-color: rgba(34, 197, 94, 0.4);
+            transform: scale(1.02);
+        }
+
+        .timer-display.stopped {
+            animation: timerStopSimple 0.3s ease-out;
+        }
+
+        @keyframes timerStopSimple {
+            0% {
+                transform: scale(1);
+                background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+                color: #86efac;
+                border-color: rgba(34, 197, 94, 0.15);
+            }
+            50% {
+                transform: scale(1.05);
+                background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(37, 99, 235, 0.1));
+                color: #93c5fd;
+                border-color: rgba(59, 130, 246, 0.3);
+            }
+            100% {
+                transform: scale(1);
+                background: linear-gradient(135deg, rgba(15, 10, 26, 0.9), rgba(26, 15, 46, 0.9));
+                color: #e8e3f5;
+                border: 1px solid rgba(232, 227, 245, 0.04);
+            }
+        }
+
+        body.light-theme .timer-display.stopped {
+            animation: timerStopSimpleLight 0.3s ease-out;
+        }
+
+        @keyframes timerStopSimpleLight {
+            0% {
+                transform: scale(1);
+                background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+                color: #059669;
+                border-color: rgba(34, 197, 94, 0.15);
+            }
+            50% {
+                transform: scale(1.05);
+                background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.15));
+                color: #2563eb;
+                border-color: rgba(59, 130, 246, 0.4);
+            }
+            100% {
+                transform: scale(1);
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+                color: #1e293b;
+                border: 1px solid rgba(30, 41, 59, 0.1);
+            }
         }
 
         .timer-display.running {
@@ -1414,9 +1491,9 @@
             font-size: 1.4em;
             font-weight: 700;
             color: #e8e3f5;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             text-align: center;
-            padding-bottom: 12px;
+            padding-bottom: 8px;
             border-bottom: 2px solid rgba(232, 227, 245, 0.08);
             letter-spacing: -0.01em;
             transition: color 0.3s ease, border-color 0.3s ease;
@@ -1428,15 +1505,15 @@
         }
 
         .history-container {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .time-history {
             background: rgba(15, 10, 26, 0.9);
             border-radius: 8px;
-            padding: 16px;
+            padding: 12px;
             border: 1px solid rgba(232, 227, 245, 0.04);
-            height: 280px;
+            height: 340px;
             overflow-y: scroll;
             scrollbar-width: thin;
             scrollbar-color: rgba(167, 139, 250, 0.3) rgba(15, 10, 26, 0.8);
@@ -1509,6 +1586,10 @@
             color: #1e293b;
         }
 
+        body.light-theme #delete-icon {
+            content: url("images/delete light.png");
+        }
+
         .btn-clear-history:hover {
             background: rgba(239, 68, 68, 0.1);
             border-color: rgba(239, 68, 68, 0.3);
@@ -1520,8 +1601,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            margin-bottom: 6px;
+            padding: 10px;
+            margin-bottom: 4px;
             background: rgba(15, 10, 26, 0.6);
             border-radius: 6px;
             font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -1571,9 +1652,9 @@
         .statistics {
             background: rgba(15, 10, 26, 0.9);
             border-radius: 8px;
-            padding: 16px;
+            padding: 12px;
             border: 1px solid rgba(232, 227, 245, 0.04);
-            margin-top: 20px;
+            margin-top: 15px;
             margin-bottom: 0;
             transition: background 0.3s ease, border-color 0.3s ease;
         }
@@ -1587,8 +1668,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            padding: 12px;
+            margin-bottom: 8px;
+            padding: 10px;
             background: rgba(15, 10, 26, 0.7);
             border-radius: 6px;
             border: 1px solid rgba(232, 227, 245, 0.04);
@@ -1754,7 +1835,7 @@
             <div class="training-layout">
                 <!-- Cas actuel à gauche -->
                 <div class="case-display">
-                    <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 15px;">Derniers cas résolus</div>
+                    <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 15px; transition: color 0.3s ease;">Derniers cas résolus</div>
                     
                     <!-- Dernier cas ZBLL -->
                     <div style="margin-bottom: 20px;">
@@ -1786,7 +1867,7 @@
                 <!-- Timer principal (centré) -->
                 <div class="timer-main-container">
                     <div class="scramble-display">
-                        <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px;">Scramble</div>
+                        <div style="font-size: 1.2em; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px; transition: color 0.3s ease;">Scramble</div>
                         <div id="scramble-text" class="scramble-text">Variable Python - sera remplie dynamiquement</div>
                         <!-- Variable pour connexion Python -->
                         <div id="python-scramble-variable" style="display: none;" data-scramble=""></div>
@@ -1812,9 +1893,9 @@
             <!-- Historique des temps -->
             <div class="history-container">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <div style="font-size: 1.1em; font-weight: bold; color: #ffffff;">Historique</div>
+                    <div style="font-size: 1.1em; font-weight: bold; color: #ffffff; transition: color 0.3s ease;">Historique</div>
                     <button id="btn-clear-history" class="btn-clear-history">
-                        <img src="images/delete.png" alt="Delete" style="width: 16px; height: 16px; margin-right: 8px;">
+                        <img id="delete-icon" src="images/delete.png" alt="Delete" style="width: 16px; height: 16px; margin-right: 8px;">
                         Vider l'historique
                     </button>
                 </div>
@@ -2270,7 +2351,7 @@
                     ${type === 'zbll' ? createOLLSVG(familyName) : `<img src="svgs/ZBLS/${familyName}-1.png" alt="${familyName}" class="family-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
                         <rect width="100" height="100" fill="#4dabf7"/>
-                        <text x="50" y="50" text-anchor="middle" fill="white" font-size="12" font-weight="bold">${familyName}</text>
+                        <text x="50" y="50" text-anchor="middle" fill="white" font-size="12" font-weight="bold" class="svg-text">${familyName}</text>
                     </svg>`}
                 </div>
                 ${type === 'zbll' ? `<div class="subcases-grid">${createSubcasesGrid(familyName, familyData.subcases)}</div>` : ''}
@@ -2461,7 +2542,7 @@
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
                                 <rect width="100" height="100" fill="#4dabf7"/>
-                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8" font-weight="bold">${caseItem.name}</text>
+                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8" font-weight="bold" class="svg-text">${caseItem.name}</text>
                             </svg>
                         </div>
                     </div>
@@ -2706,7 +2787,7 @@
                                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                             <svg viewBox="0 0 100 100" class="oll-svg" style="display:none;">
                                 <rect width="100" height="100" fill="#4dabf7"/>
-                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8">${caseItem.name}</text>
+                                <text x="50" y="50" text-anchor="middle" fill="white" font-size="8" class="svg-text">${caseItem.name}</text>
                             </svg>
                         </div>
                         <div class="individual-case-name">${caseItem.name}</div>
@@ -3219,6 +3300,14 @@
             
             const timerDisplay = document.getElementById('timer-display');
             timerDisplay.classList.remove('running', 'ready', 'ready_to_start');
+            
+            // Ajouter l'animation d'arrêt
+            timerDisplay.classList.add('stopped');
+            
+            // Retirer l'animation après qu'elle se termine
+            setTimeout(() => {
+                timerDisplay.classList.remove('stopped');
+            }, 300);
             
             // Ajouter le temps à l'historique
             addTimeToHistory(solveTime);

@@ -26,6 +26,12 @@
             padding: 0;
             width: 100vw;
             overflow-x: hidden;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-theme {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            color: #1e293b;
         }
 
         .header {
@@ -36,6 +42,13 @@
             color: #e8e3f5;
             border-bottom: 1px solid rgba(232, 227, 245, 0.08);
             position: relative;
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .header {
+            background: rgba(255, 255, 255, 0.9);
+            color: #1e293b;
+            border-bottom: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .credits-btn {
@@ -54,11 +67,80 @@
             font-size: 0.9em;
         }
 
+        body.light-theme .credits-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
+        }
+
         .credits-btn:hover {
             background: rgba(167, 139, 250, 0.1);
             border-color: rgba(167, 139, 250, 0.3);
             color: #c4b5fd;
             transform: translateY(-1px);
+        }
+
+        body.light-theme .credits-btn:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
+        }
+
+        /* Header actions container */
+        .header-actions {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Animation pour l'icône de thème */
+        .theme-icon {
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .theme-icon.rotating {
+            transform: rotate(360deg);
+        }
+
+        /* Common header button style */
+        .header-button {
+            width: 120px;
+            height: 44px;
+            background: rgba(15, 10, 26, 0.9);
+            border: 1px solid rgba(232, 227, 245, 0.1);
+            color: #e8e3f5;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 500;
+            font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        body.light-theme .header-button {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
+        }
+
+        .header-button:hover {
+            background: rgba(167, 139, 250, 0.1);
+            border-color: rgba(167, 139, 250, 0.3);
+            color: #c4b5fd;
+            transform: translateY(-1px);
+        }
+
+        body.light-theme .header-button:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: rgba(59, 130, 246, 0.3);
+            color: #3b82f6;
         }
 
         .header h1 {
@@ -68,6 +150,14 @@
             margin-bottom: 8px;
             letter-spacing: -0.02em;
             background: linear-gradient(135deg, #e8e3f5 0%, #b8b3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .header h1 {
+            background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -87,7 +177,29 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .selection-panel.exit {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
+        }
+
+        .control-panel {
+            width: 400px;
+            background: rgba(15, 10, 26, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(232, 227, 245, 0.06);
+            backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease, opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .control-panel.exit {
+            opacity: 0;
+            transform: translateY(-20px);
+            pointer-events: none;
         }
 
         .zone-section {
@@ -96,6 +208,12 @@
             padding: 20px;
             border: 1px solid rgba(232, 227, 245, 0.06);
             backdrop-filter: blur(10px);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .zone-section {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .zone-title {
@@ -108,16 +226,34 @@
             padding-bottom: 12px;
             border-bottom: 2px solid rgba(232, 227, 245, 0.08);
             letter-spacing: -0.01em;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .zone-title {
+            color: #1e293b;
+            border-bottom-color: rgba(30, 41, 59, 0.1);
         }
 
         .zbll-zone .zone-title {
             border-bottom-color: rgba(239, 68, 68, 0.6);
             color: #fca5a5;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .zbll-zone .zone-title {
+            border-bottom-color: rgba(220, 38, 38, 0.6);
+            color: #dc2626;
         }
 
         .zbls-zone .zone-title {
             border-bottom-color: rgba(59, 130, 246, 0.6);
             color: #93c5fd;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .zbls-zone .zone-title {
+            border-bottom-color: rgba(37, 99, 235, 0.6);
+            color: #2563eb;
         }
 
         /* Nouveau design pour les cartes horizontales */
@@ -148,6 +284,11 @@
             backdrop-filter: blur(10px);
         }
 
+        body.light-theme .family-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.15);
+        }
+
         .family-card:hover {
             transform: translateY(-2px);
             border-color: rgba(167, 139, 250, 0.3);
@@ -158,11 +299,23 @@
             background: rgba(34, 197, 94, 0.12);
             border-color: rgba(34, 197, 94, 0.4);
             transform: scale(1.02);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .family-card.selected {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.5);
         }
 
         .family-card.partially-selected {
             background: rgba(251, 146, 60, 0.1);
             border-color: rgba(251, 146, 60, 0.3);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .family-card.partially-selected {
+            background: rgba(251, 146, 60, 0.12);
+            border-color: rgba(251, 146, 60, 0.4);
         }
 
         .family-header {
@@ -178,10 +331,20 @@
             border: 1px solid rgba(232, 227, 245, 0.06);
         }
 
+        body.light-theme .family-header {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.1);
+        }
+
         .family-header:hover {
             background: rgba(15, 10, 26, 0.95);
             border-color: rgba(232, 227, 245, 0.12);
             transform: scale(1.01);
+        }
+
+        body.light-theme .family-header:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: rgba(30, 41, 59, 0.15);
         }
 
         .family-name {
@@ -189,6 +352,11 @@
             font-size: 1.1em;
             font-weight: 600;
             color: #e8e3f5;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .family-name {
+            color: #1e293b;
         }
 
         .family-count {
@@ -198,6 +366,12 @@
             font-size: 0.8em;
             font-weight: 600;
             color: #c4b5fd;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-theme .family-count {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
         }
 
         .family-oll-pattern {
@@ -210,6 +384,11 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .family-oll-pattern {
+            background: rgba(30, 41, 59, 0.1);
         }
 
         .family-oll-pattern img {
@@ -266,6 +445,11 @@
             opacity: 0;
             transform: scale(0.9) translateY(10px);
             animation: subcaseFadeIn 0.3s ease forwards;
+        }
+
+        body.light-theme .subcase-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.15);
         }
 
         .family-card.expanded .subcase-card:nth-child(1) { animation-delay: 0.05s; }
@@ -347,6 +531,12 @@
             border: 1px solid rgba(167, 139, 250, 0.15);
         }
 
+        body.light-theme .subcase-name {
+            color: #1e293b;
+            background: rgba(59, 130, 246, 0.08);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }
+
         .subcase-name:hover {
             background: rgba(167, 139, 250, 0.12);
             border-color: rgba(167, 139, 250, 0.25);
@@ -362,6 +552,11 @@
             padding: 4px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .subcase-header {
+            background: rgba(30, 41, 59, 0.1);
         }
 
         .subcase-image {
@@ -373,6 +568,11 @@
             justify-content: center;
             background: rgba(0, 0, 0, 0.2);
             margin-bottom: 5px;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .subcase-image {
+            background: rgba(30, 41, 59, 0.1);
         }
 
         .subcase-image img {
@@ -388,6 +588,12 @@
             background: rgba(255, 255, 255, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
+            transition: color 0.3s ease, background 0.3s ease;
+        }
+
+        body.light-theme .subcase-count {
+            color: rgba(30, 41, 59, 0.7);
+            background: rgba(30, 41, 59, 0.1);
         }
 
         .family-image {
@@ -434,6 +640,12 @@
             width: 90%;
             overflow-y: auto;
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .modal {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .modal-header {
@@ -443,6 +655,11 @@
             margin-bottom: 20px;
             padding-bottom: 16px;
             border-bottom: 2px solid rgba(232, 227, 245, 0.08);
+            transition: border-color 0.3s ease;
+        }
+
+        body.light-theme .modal-header {
+            border-bottom-color: rgba(30, 41, 59, 0.1);
         }
 
         .modal-title {
@@ -450,6 +667,11 @@
             font-size: 1.8em;
             font-weight: 700;
             color: #e8e3f5;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .modal-title {
+            color: #1e293b;
         }
 
         .modal-close {
@@ -464,10 +686,19 @@
             font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
+        body.light-theme .modal-close {
+            color: #1e293b;
+        }
+
         .modal-close:hover {
             background: rgba(239, 68, 68, 0.1);
             color: #fca5a5;
             transform: scale(1.05);
+        }
+
+        body.light-theme .modal-close:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #dc2626;
         }
 
         .modal-content {
@@ -494,6 +725,11 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        body.light-theme .individual-case-card {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.15);
         }
 
         .individual-case-card:hover {
@@ -529,6 +765,11 @@
             font-weight: 600;
             color: #e8e3f5;
             margin-bottom: 0;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .individual-case-name {
+            color: #1e293b;
         }
 
         .individual-case-checkbox {
@@ -543,6 +784,11 @@
             justify-content: center;
             padding-top: 16px;
             border-top: 2px solid rgba(232, 227, 245, 0.08);
+            transition: border-color 0.3s ease;
+        }
+
+        body.light-theme .modal-footer {
+            border-top-color: rgba(30, 41, 59, 0.1);
         }
 
         .modal-btn {
@@ -561,18 +807,39 @@
             background: rgba(34, 197, 94, 0.15);
             border-color: rgba(34, 197, 94, 0.3);
             color: #86efac;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-theme .modal-btn.all {
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.4);
+            color: #059669;
         }
 
         .modal-btn.none {
             background: rgba(239, 68, 68, 0.15);
             border-color: rgba(239, 68, 68, 0.3);
             color: #fca5a5;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-theme .modal-btn.none {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: rgba(239, 68, 68, 0.4);
+            color: #dc2626;
         }
 
         .modal-btn.done {
             background: rgba(167, 139, 250, 0.15);
             border-color: rgba(167, 139, 250, 0.3);
             color: #c4b5fd;
+            transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.light-theme .modal-btn.done {
+            background: rgba(167, 139, 250, 0.25);
+            border-color: rgba(167, 139, 250, 0.5);
+            color: #7c3aed;
         }
 
         .modal-btn:hover {
@@ -587,6 +854,12 @@
             padding: 20px;
             border: 1px solid rgba(232, 227, 245, 0.06);
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .control-panel {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .section-title {
@@ -599,6 +872,12 @@
             padding-bottom: 12px;
             border-bottom: 2px solid rgba(232, 227, 245, 0.08);
             letter-spacing: -0.01em;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .section-title {
+            color: #1e293b;
+            border-bottom-color: rgba(30, 41, 59, 0.1);
         }
 
         .selection-summary {
@@ -606,6 +885,12 @@
             border-radius: 8px;
             padding: 16px;
             border: 1px solid rgba(232, 227, 245, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .selection-summary {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .selection-count {
@@ -622,6 +907,12 @@
             font-weight: 600;
             font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
             border: 1px solid rgba(232, 227, 245, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .count-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .count-item.zbll {
@@ -649,6 +940,13 @@
             overflow-y: auto;
             word-break: break-all;
             border: 1px solid rgba(232, 227, 245, 0.06);
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .selected-algorithms {
+            background: rgba(255, 255, 255, 0.8);
+            color: #1e293b;
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .btn {
@@ -695,10 +993,35 @@
             max-width: none;
             margin: -30px 0 0 0;
             position: relative;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
         .training-view.active {
             display: flex;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .training-view.enter {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            pointer-events: none;
+        }
+
+        .training-view.enter-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .training-view.exit {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            pointer-events: none;
         }
 
         .btn-back-top {
@@ -719,6 +1042,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        body.light-theme .btn-back-top {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
         }
 
         .btn-back-top:hover {
@@ -767,6 +1096,12 @@
             margin-bottom: 0;
             width: 100%;
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .scramble-display {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .scramble-text {
@@ -776,6 +1111,75 @@
             color: #a78bfa;
             letter-spacing: 0.05em;
             margin: 2px 0;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .scramble-text {
+            color: #7c3aed;
+        }
+
+        body.light-theme .time-item .case {
+            color: #7c3aed;
+        }
+
+        /* Styles pour les SVG de fallback en mode clair */
+        body.light-theme .case-image svg rect {
+            fill: #f1f5f9;
+        }
+
+        body.light-theme .case-image svg text {
+            fill: #1e293b;
+        }
+
+        /* Styles pour la modale des raccourcis en mode clair */
+        body.light-theme .shortcuts-modal-overlay .modal-content div[style*="background: rgba(15, 10, 26, 0.7)"] {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(30, 41, 59, 0.1) !important;
+        }
+
+        body.light-theme .shortcuts-modal-overlay .modal-content span[style*="color: #e8e3f5"] {
+            color: #1e293b !important;
+        }
+
+        body.light-theme .shortcuts-modal-overlay .modal-content span[style*="color: #a78bfa"] {
+            color: #7c3aed !important;
+        }
+
+        body.light-theme .shortcuts-modal-overlay .modal-content h3[style*="color: #a78bfa"] {
+            color: #7c3aed !important;
+        }
+
+        body.light-theme .shortcuts-modal-overlay .modal-content div[style*="background: rgba(167, 139, 250, 0.1)"] {
+            background: rgba(59, 130, 246, 0.1) !important;
+            border: 1px solid rgba(59, 130, 246, 0.2) !important;
+        }
+
+        body.light-theme .shortcuts-modal-overlay .modal-content p[style*="color: rgba(255, 255, 255, 0.7)"] {
+            color: rgba(30, 41, 59, 0.7) !important;
+        }
+
+        /* Cibler tous les éléments avec style violet dans la modale des raccourcis */
+        body.light-theme #shortcuts-modal-overlay * {
+            color: inherit !important;
+        }
+
+        body.light-theme #shortcuts-modal-overlay .modal-content [style*="color: #a78bfa"] {
+            color: #7c3aed !important;
+        }
+
+        body.light-theme #shortcuts-modal-overlay .modal-content [style*="color: #c4b5fd"] {
+            color: #7c3aed !important;
+        }
+
+        /* S'assurer que tous les fonds dans la modale des raccourcis sont clairs */
+        body.light-theme #shortcuts-modal-overlay .modal-content > div > div {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(30, 41, 59, 0.1) !important;
+        }
+
+        body.light-theme #shortcuts-modal-overlay .modal-content > div > div[style*="background"] {
+            background: rgba(255, 255, 255, 0.8) !important;
+            border: 1px solid rgba(30, 41, 59, 0.1) !important;
         }
 
         .timer-container {
@@ -790,6 +1194,24 @@
             justify-content: center;
             gap: 30px;
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease, opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .timer-container.timer-exit {
+            opacity: 0;
+            transform: translateY(15px) scale(0.98);
+            pointer-events: none;
+        }
+
+        .timer-container.timer-hidden {
+            opacity: 0;
+            transform: translateY(15px) scale(0.98);
+            pointer-events: none;
+        }
+
+        body.light-theme .timer-container {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .timer-display {
@@ -806,6 +1228,12 @@
             border: 1px solid rgba(232, 227, 245, 0.04);
             letter-spacing: -0.06em;
             line-height: 1;
+        }
+
+        body.light-theme .timer-display {
+            color: #1e293b;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.9));
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .timer-display.ready {
@@ -837,6 +1265,12 @@
             width: 400px;
             min-height: 380px;
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .case-display {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .case-image {
@@ -848,6 +1282,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .case-image {
+            background: rgba(30, 41, 59, 0.1);
         }
 
         .case-image img,
@@ -864,6 +1303,11 @@
             font-weight: 600;
             color: #e8e3f5;
             margin-top: 16px;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .case-name {
+            color: #1e293b;
         }
 
         .training-controls {
@@ -886,6 +1330,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        body.light-theme .btn-back {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
         }
 
         .btn-back:hover {
@@ -911,6 +1361,12 @@
             gap: 6px;
         }
 
+        body.light-theme .btn-next {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
+        }
+
         .btn-next:hover {
             background: rgba(59, 130, 246, 0.1);
             border-color: rgba(59, 130, 246, 0.3);
@@ -927,6 +1383,30 @@
             height: auto;
             margin: 0;
             backdrop-filter: blur(20px);
+            transition: background 0.3s ease, border-color 0.3s ease, opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .training-stats.enter {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            pointer-events: none;
+        }
+
+        .training-stats.enter-active {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .training-stats.exit {
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            pointer-events: none;
+        }
+
+        body.light-theme .training-stats {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .stats-title {
@@ -939,6 +1419,12 @@
             padding-bottom: 12px;
             border-bottom: 2px solid rgba(232, 227, 245, 0.08);
             letter-spacing: -0.01em;
+            transition: color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .stats-title {
+            color: #1e293b;
+            border-bottom-color: rgba(30, 41, 59, 0.1);
         }
 
         .history-container {
@@ -954,6 +1440,13 @@
             overflow-y: scroll;
             scrollbar-width: thin;
             scrollbar-color: rgba(167, 139, 250, 0.3) rgba(15, 10, 26, 0.8);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .time-history {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
+            scrollbar-color: rgba(59, 130, 246, 0.3) rgba(255, 255, 255, 0.8);
         }
 
         /* Custom scrollbar for WebKit browsers */
@@ -965,6 +1458,11 @@
             background: rgba(15, 10, 26, 0.8);
             border-radius: 3px;
             margin: 2px;
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .time-history::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.8);
         }
 
         .time-history::-webkit-scrollbar-thumb {
@@ -972,10 +1470,21 @@
             border-radius: 3px;
             border: 1px solid rgba(167, 139, 250, 0.2);
             margin: 2px;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .time-history::-webkit-scrollbar-thumb {
+            background: rgba(59, 130, 246, 0.3);
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .time-history::-webkit-scrollbar-thumb:hover {
             background: rgba(167, 139, 250, 0.5);
+            transition: background 0.3s ease;
+        }
+
+        body.light-theme .time-history::-webkit-scrollbar-thumb:hover {
+            background: rgba(59, 130, 246, 0.5);
         }
 
         .btn-clear-history {
@@ -992,6 +1501,12 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+
+        body.light-theme .btn-clear-history {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.2);
+            color: #1e293b;
         }
 
         .btn-clear-history:hover {
@@ -1012,6 +1527,12 @@
             font-family: 'JetBrains Mono', 'Courier New', monospace;
             font-weight: 500;
             border: 1px solid rgba(232, 227, 245, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .time-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .time-item .time {
@@ -1054,6 +1575,12 @@
             border: 1px solid rgba(232, 227, 245, 0.04);
             margin-top: 20px;
             margin-bottom: 0;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .statistics {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .stat-item {
@@ -1065,12 +1592,23 @@
             background: rgba(15, 10, 26, 0.7);
             border-radius: 6px;
             border: 1px solid rgba(232, 227, 245, 0.04);
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        body.light-theme .stat-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(30, 41, 59, 0.1);
         }
 
         .stat-label {
             font-family: 'Inter Tight', -apple-system, BlinkMacSystemFont, sans-serif;
             font-weight: 600;
             color: #e8e3f5;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .stat-label {
+            color: #1e293b;
         }
 
         .stat-value {
@@ -1078,6 +1616,11 @@
             font-weight: 600;
             color: #86efac;
             font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+
+        body.light-theme .stat-value {
+            color: #059669;
         }
 
         .timer-hint {
@@ -1147,8 +1690,11 @@
             <img src="images/logo.png" alt="Full ZB Trainer Logo" style="width: 40px; height: 40px; border-radius: 8px;">
             <h1 style="margin: 0;">Full ZB trainer</h1>
         </div>
-        <div style="position: absolute; top: 20px; left: 20px; display: flex; gap: 10px;">
-            <button id="btn-back-top" class="btn-back-top" style="display: none;">← Retour</button>
+        <div class="header-actions">
+            <button id="theme-toggle-btn" class="header-button">
+                <img id="theme-icon" class="theme-icon" src="images/light mode.png" alt="Theme" style="width: 20px; height: 20px;">
+            </button>
+            <button id="btn-back-top" class="header-button" style="display: none;">← Retour</button>
         </div>
         <div style="position: absolute; top: 20px; right: 100px; display: flex; align-items: center;">
             <button id="shortcuts-btn" class="credits-btn" style="font-size: 0.9em; padding: 8px 16px;">Raccourcis</button>
@@ -1191,7 +1737,7 @@
             <div class="selection-summary">
                 <div class="selection-count">
                     <div class="count-item zbll">ZBLL: <span id="zbll-count">0</span></div>
-                    <img src="images/timer.png" alt="Timer" style="width: 40px; height: 40px; margin: 0 14px; vertical-align: middle;">
+                    <img id="timer-icon-1" src="images/timer.png" alt="Timer" style="width: 40px; height: 40px; margin: 0 14px; vertical-align: middle;">
                     <div class="count-item zbls">ZBLS: <span id="zbls-count">0</span></div>
                 </div>
                 <button id="training-btn" class="btn btn-training" disabled>
@@ -1246,7 +1792,7 @@
                         <div id="python-scramble-variable" style="display: none;" data-scramble=""></div>
                     </div>
 
-                    <div class="timer-container">
+                    <div class="timer-container timer-hidden">
                         <div id="timer-display" class="timer-display">00.00</div>
                         <div class="training-controls">
                             <!-- Le bouton "Cas suivant" a été retiré car les cas se chargent automatiquement -->
@@ -1259,7 +1805,7 @@
         <!-- Statistiques et historique -->
         <div class="training-stats">
             <div class="stats-title" style="display: flex; align-items: center; justify-content: center;">
-    <img src="images/timer.png" alt="Timer" style="width: 36px; height: 36px; margin-right: 14px;">
+    <img id="timer-icon-2" src="images/timer.png" alt="Timer" style="width: 36px; height: 36px; margin-right: 14px;">
     Statistiques
 </div>
             
@@ -1335,21 +1881,19 @@
             <div class="modal-content">
                 <div style="text-align: center; margin-bottom: 20px;">
                     <img src="images/logo.png" alt="Full ZB Trainer Logo" style="width: 80px; height: 80px; margin-bottom: 15px; border-radius: 10px;">
-                    <h3 style="color: #ffd700; margin-bottom: 15px;">Full ZB Trainer</h3>
+                    <h3 style="color: #a78bfa; margin-bottom: 15px;">Full ZB Trainer</h3>
                 </div>
                 <p style="margin-bottom: 20px; line-height: 1.6;">
                     Une application web complète pour l'entraînement des algorithmes ZBLL et ZBLS.
                 </p>
                 
-                <h4 style="color: #ffd700; margin-bottom: 10px;">Développement</h4>
+                <h4 style="color: #a78bfa; margin-bottom: 10px;">Développement</h4>
                 <ul style="margin-bottom: 20px; padding-left: 20px; line-height: 1.6;">
                     <li>Conception : 2Stynxt_</li>
                     <li>Développement : Cascade AI Assistant</li>
-                    <li>Interface utilisateur moderne et responsive</li>
-                    <li>Gestion des algorithmes ZBLL et ZBLS</li>
                 </ul>
                 
-                <h4 style="color: #ffd700; margin-bottom: 10px;">Remerciements</h4>
+                <h4 style="color: #a78bfa; margin-bottom: 10px;">Remerciements</h4>
                 <p style="line-height: 1.6;">
                     Merci à la communauté du speedcubing pour les algorithmes et les ressources partagées.
                 </p>
@@ -1364,7 +1908,7 @@
     <div id="shortcuts-modal-overlay" class="modal-overlay">
         <div class="modal">
             <div class="modal-header">
-                <div class="modal-title">⌨️ Raccourcis Clavier</div>
+                <div class="modal-title"><img id="keyboard-icon" src="images/keyboard.png" alt="Keyboard" style="width: 24px; height: 24px; margin-right: 8px; vertical-align: middle;"> Raccourcis Clavier</div>
                 <button id="shortcuts-modal-close" class="modal-close">✕</button>
             </div>
             <div class="modal-content">
@@ -1383,11 +1927,7 @@
                         <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">Ctrl + Z</span>
                     </div>
                     
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
-                        <span style="color: #e8e3f5; font-weight: 500;">Cas suivant</span>
-                        <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">N</span>
-                    </div>
-                    
+                                        
                     <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: rgba(15, 10, 26, 0.7); border: 1px solid rgba(232, 227, 245, 0.1); border-radius: 6px;">
                         <span style="color: #e8e3f5; font-weight: 500;">Retour</span>
                         <span style="color: #a78bfa; font-family: 'JetBrains Mono', monospace; font-weight: 600;">Échap</span>
@@ -2236,6 +2776,55 @@
             document.getElementById('shortcuts-modal-overlay').classList.remove('active');
         });
 
+        // Gestion du changement de thème
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Vérifier le thème sauvegardé dans localStorage
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            body.classList.add('light-theme');
+            themeIcon.src = 'images/dark mode.png';
+            
+            // Initialiser les images pour le mode clair
+            document.getElementById('timer-icon-1').src = 'images/timer light.png';
+            document.getElementById('timer-icon-2').src = 'images/timer light.png';
+            document.getElementById('keyboard-icon').src = 'images/keyboard dark.png';
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            // Ajouter l'animation de rotation
+            const themeIcon = document.getElementById('theme-icon');
+            themeIcon.classList.add('rotating');
+            
+            // Changer le thème
+            body.classList.toggle('light-theme');
+            
+            if (body.classList.contains('light-theme')) {
+                themeIcon.src = 'images/dark mode.png';
+                localStorage.setItem('theme', 'light');
+                
+                // Changer les images pour le mode clair
+                document.getElementById('timer-icon-1').src = 'images/timer light.png';
+                document.getElementById('timer-icon-2').src = 'images/timer light.png';
+                document.getElementById('keyboard-icon').src = 'images/keyboard dark.png';
+            } else {
+                themeIcon.src = 'images/light mode.png';
+                localStorage.setItem('theme', 'dark');
+                
+                // Changer les images pour le mode sombre
+                document.getElementById('timer-icon-1').src = 'images/timer.png';
+                document.getElementById('timer-icon-2').src = 'images/timer.png';
+                document.getElementById('keyboard-icon').src = 'images/keyboard.png';
+            }
+            
+            // Retirer la classe d'animation après la fin de l'animation
+            setTimeout(() => {
+                themeIcon.classList.remove('rotating');
+            }, 600);
+        });
+
         document.getElementById('modal-all').addEventListener('click', function() {
             const modal = document.getElementById('modal-overlay');
             const modalGrid = document.getElementById('individual-cases-grid');
@@ -2401,10 +2990,43 @@
 
             isTrainingMode = true;
             
-            // Masquer la vue de sélection et afficher la vue d'entraînement
-            document.querySelector('.selection-panel').style.display = 'none';
-            document.querySelector('.control-panel').style.display = 'none';
-            document.getElementById('training-view').classList.add('active');
+            // Démarrer l'animation de transition
+            const selectionPanel = document.querySelector('.selection-panel');
+            const controlPanel = document.querySelector('.control-panel');
+            const trainingView = document.getElementById('training-view');
+            const trainingStats = document.querySelector('.training-stats');
+            
+            // Phase 1: Faire disparaître les panneaux de sélection
+            selectionPanel.classList.add('exit');
+            controlPanel.classList.add('exit');
+            
+            // Phase 2: Après un court délai, afficher la vue d'entraînement
+            setTimeout(() => {
+                trainingView.style.display = 'flex';
+                trainingView.classList.add('enter');
+                trainingStats.classList.add('enter');
+                
+                // Forcer un reflow pour que l'animation se déclenche
+                trainingView.offsetHeight;
+                
+                // Démarrer l'animation d'entrée
+                trainingView.classList.remove('enter');
+                trainingView.classList.add('enter-active', 'active');
+                trainingStats.classList.remove('enter');
+                trainingStats.classList.add('enter-active');
+                
+                // Afficher le timer directement sans animation
+                const timerContainer = document.querySelector('.timer-container');
+                timerContainer.classList.remove('timer-hidden');
+                
+                // Nettoyer les classes après l'animation
+                setTimeout(() => {
+                    selectionPanel.style.display = 'none';
+                    controlPanel.style.display = 'none';
+                    trainingView.classList.remove('enter-active');
+                    trainingStats.classList.remove('enter-active');
+                }, 400);
+            }, 100);
             
             // Afficher le bouton retour dans le header mais garder le bouton crédits
             document.getElementById('btn-back-top').style.display = 'block';
@@ -2422,10 +3044,42 @@
         function stopTraining() {
             isTrainingMode = false;
             
-            // Afficher la vue de sélection et masquer la vue d'entraînement
-            document.querySelector('.selection-panel').style.display = 'flex';
-            document.querySelector('.control-panel').style.display = 'block';
-            document.getElementById('training-view').classList.remove('active');
+            // Démarrer l'animation de transition inverse
+            const selectionPanel = document.querySelector('.selection-panel');
+            const controlPanel = document.querySelector('.control-panel');
+            const trainingView = document.getElementById('training-view');
+            const trainingStats = document.querySelector('.training-stats');
+            
+            // Phase 1: Faire disparaître la vue d'entraînement
+            trainingView.classList.remove('active');
+            trainingView.classList.add('exit');
+            trainingStats.classList.add('exit');
+            
+            // Animer le timer en premier pour une sortie fluide
+            const timerContainer = document.querySelector('.timer-container');
+            timerContainer.classList.add('timer-exit');
+            
+            // Phase 2: Après un court délai, afficher les panneaux de sélection
+            setTimeout(() => {
+                selectionPanel.style.display = 'flex';
+                controlPanel.style.display = 'block';
+                
+                // Forcer un reflow
+                selectionPanel.offsetHeight;
+                
+                // Retirer les classes de sortie
+                selectionPanel.classList.remove('exit');
+                controlPanel.classList.remove('exit');
+                
+                // Masquer complètement la vue d'entraînement après l'animation
+                setTimeout(() => {
+                    trainingView.style.display = 'none';
+                    trainingView.classList.remove('exit');
+                    trainingStats.classList.remove('exit');
+                    timerContainer.classList.remove('timer-exit');
+                    timerContainer.classList.add('timer-hidden'); // Remettre timer-hidden
+                }, 350);
+            }, 100);
             
             // Masquer le bouton retour dans le header
             document.getElementById('btn-back-top').style.display = 'none';
@@ -2783,13 +3437,7 @@
                 return;
             }
             
-            // Gérer N pour le cas suivant
-            if (event.key === 'n' || event.key === 'N') {
-                event.preventDefault();
-                loadNextCase();
-                return;
-            }
-            
+                        
             // Gérer Échap pour retourner à la sélection
             if (event.key === 'Escape') {
                 event.preventDefault();
@@ -2866,6 +3514,12 @@
 
         // Initialisation
         function initializeApp() {
+            // Initialiser l'état du timer
+            const timerContainer = document.querySelector('.timer-container');
+            if (timerContainer) {
+                timerContainer.classList.add('timer-hidden');
+            }
+            
             // Charger les cas ZBLL depuis les fichiers SVG
             loadZBLLCasesFromSVG();
             

@@ -1,6 +1,6 @@
 # ZBLS Generator
 
-Un générateur et entraîneur d'algorithmes ZBLS (Zborowski-Bruchat Last Slot) pour la résolution du Rubik's Cube.
+Un générateur et entraîneur d'algorithmes ZBLS (Zborowski-Bruchem Last Slot) pour la résolution du Rubik's Cube.
 
 ## Description
 
